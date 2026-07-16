@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wetar Outbound & Container Tracking Dashboard</title>
+    <!-- Tailwind CSS for modern responsive styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Premium Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .font-mono-custom {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        /* Custom scrollbar for premium aesthetic */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #f59e0b;
+        }
+        /* Realistic smooth ship floating animation */
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-4px) rotate(2deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+        .floating-ship {
+            animation: float 3s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-slate-950 text-slate-100 font-sans antialiased pb-12">
+
+    <!-- HEADER UTAMA -->
+    <header class="sticky top-0 z-30 bg-slate-900/95 backdrop-blur border-b border-slate-800 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <span class="p-2 bg-amber-500 rounded-xl text-slate-950 font-extrabold text-xl tracking-wider shadow-md shadow-amber-500/20">W</span>
+                <div>
+                    <h1 class="font-bold text-base md:text-lg text-amber-500 tracking-wide flex items-center gap-1.5">
+                        WETAR LOGISTICS
+                        <span class="text-[10px] bg-slate-800 text-slate-300 font-mono-custom py-0.5 px-2 rounded-full border border-slate-700">TRACKER</span>
+                    </h1>
+                    <p class="text-[10px] md:text-xs text-slate-400">Sistem Manifes & Pelacakan Logistik Terpadu</p>
+                </div>
+            </div>
+
+            <!-- Search bar desktop -->
+            <div class="hidden md:flex items-center space-x-2 flex-1 max-w-md mx-8">
+                <div class="relative w-full">
+                    <input
+                        type="text"
+                        id="desktopSearchInput"
+                        placeholder="Cari ID, No Kontainer, atau Nama Barang..."
+                        class="w-full bg-slate-950 text-slate-100 rounded-lg pl-10 pr-4 py-2 border border-slate-800 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-all text-sm"
+                    />
+                    <div class="absolute left-3 top-2.5 text-slate-500">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <button
+                    onclick="openAddModal()"
+                    class="flex items-center space-x-1.5 px-3 py-2 md:px-4 md:py-2.5 bg-amber-500 text-slate-950 font-bold rounded-lg hover:bg-amber-400 active:scale-95 transition-all shadow-lg shadow-amber-500/15 text-xs md:text-sm"
+                >
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" /></svg>
+                    <span>Outbound Baru</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- SEARCH BAR MOBILE -->
+    <div class="p-4 md:hidden border-b border-slate-900 bg-slate-900/50">
+        <div class="relative w-full">
+            <input
+                type="text"
+                id="mobileSearchInput"
+                placeholder="Cari ID, Kontainer, atau Barang..."
+                class="w-full bg-slate-950 text-slate-100 rounded-lg pl-10 pr-4 py-2 border border-slate-800 focus:outline-none focus:border-amber-500 text-sm"
+            />
+            <div class="absolute left-3 top-2.5 text-slate-500">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTAINER -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        
+        <!-- RINGKASAN METRIK DASHBOARD -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+            <!-- Widget Total Outbound -->
+            <div class="bg-gradient-to-br from-slate-900 to-slate-950 p-4 rounded-xl border border-slate-800 shadow-sm relative overflow-hidden">
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Total Outbound</p>
+                <div class="flex items-baseline justify-between mt-1">
+                    <span id="metricTotal" class="text-2xl font-extrabold text-white">0</span>
+                    <span class="text-[10px] text-slate-500 font-semibold">Kargo Terdaftar</span>
+                </div>
+                <div class="h-1 w-full bg-slate-800 rounded-full mt-3 overflow-hidden">
+                    <div class="h-full bg-amber-500" style="width: 100%"></div>
+                </div>
+            </div>
+
+            <!-- Widget In Transit -->
+            <div class="bg-gradient-to-br from-slate-900 to-slate-950 p-4 rounded-xl border border-slate-800 shadow-sm">
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Sedang Berlayar</p>
+                <div class="flex items-baseline justify-between mt-1">
+                    <span id="metricActive" class="text-2xl font-extrabold text-amber-500">0</span>
+                    <span class="text-[10px] text-amber-500/80 font-bold">Dalam Transit</span>
+                </div>
+                <div class="h-1 w-full bg-slate-800 rounded-full mt-3 overflow-hidden">
+                    <div id="metricActiveBar" class="h-full bg-amber-500 transition-all duration-500" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <!-- Widget Delivered -->
+            <div class="bg-gradient-to-br from-slate-900 to-slate-950 p-4 rounded-xl border border-slate-800 shadow-sm">
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Telah Tiba (Delivered)</p>
+                <div class="flex items-baseline justify-between mt-1">
+                    <span id="metricDelivered" class="text-2xl font-extrabold text-emerald-400">0</span>
+                    <span class="text-[10px] text-emerald-500/80 font-bold">Selesai Bongkar</span>
+                </div>
+                <div class="h-1 w-full bg-slate-800 rounded-full mt-3 overflow-hidden">
+                    <div id="metricDeliveredBar" class="h-full bg-emerald-500 transition-all duration-500" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <!-- Widget Total Berat -->
+            <div class="bg-gradient-to-br from-slate-900 to-slate-950 p-4 rounded-xl border border-slate-800 shadow-sm">
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Total Berat Keluar Site</p>
+                <div class="flex items-baseline justify-between mt-1">
+                    <span id="metricWeight" class="text-2xl font-extrabold text-sky-400">0.0</span>
+                    <span class="text-[10px] text-sky-400 font-bold">Tonase Total</span>
+                </div>
+                <div class="h-1 w-full bg-slate-800 rounded-full mt-3 overflow-hidden">
+                    <div class="h-full bg-sky-500" style="width: 85%"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- GRID UTAMA: DAFTAR BARANG & PELACAK DETAIL -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+            
+            <!-- COLUMN KIRI: DAFTAR MANIFES BARANG -->
+            <div class="lg:col-span-1 bg-slate-900 rounded-2xl border border-slate-800 p-4 flex flex-col space-y-4 shadow-xl">
+                <div class="flex items-center justify-between">
+                    <h2 class="font-bold text-sm md:text-base text-slate-200 tracking-wide flex items-center gap-2">
+                        <svg class="w-5 h-5 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" /></svg>
+                        Daftar Kontainer & Item
+                    </h2>
+                    <span id="listCounter" class="text-xs bg-slate-950 text-amber-500 py-1 px-2.5 rounded-full font-bold border border-slate-800">
+                        0 item
+                    </span>
+                </div>
+
+                <!-- TAB FILTER STATUS -->
+                <div class="flex space-x-1 p-1 bg-slate-950 rounded-lg border border-slate-800/80">
+                    <button
+                        onclick="switchTab('all')"
+                        id="tab-all"
+                        class="flex-1 text-center py-1.5 text-xs font-bold rounded-md transition-all bg-amber-500 text-slate-950"
+                    >
+                        Semua
+                    </button>
+                    <button
+                        onclick="switchTab('active')"
+                        id="tab-active"
+                        class="flex-1 text-center py-1.5 text-xs font-bold rounded-md transition-all text-slate-400 hover:text-slate-200"
+                    >
+                        Aktif
+                    </button>
+                    <button
+                        onclick="switchTab('delivered')"
+                        id="tab-delivered"
+                        class="flex-1 text-center py-1.5 text-xs font-bold rounded-md transition-all text-slate-400 hover:text-slate-200"
+                    >
+                        Selesai
+                    </button>
+                </div>
+
+                <!-- LIST CONTAINER SCROLLABLE -->
+                <div id="shipmentList" class="space-y-3 overflow-y-auto max-h-[580px] pr-1">
+                    <!-- Barang akan dirender di sini via Javascript -->
+                </div>
+            </div>
+
+            <!-- COLUMN KANAN: DETAIL PELACAKAN SHOPEE-STYLE -->
+            <div class="lg:col-span-2 space-y-6">
+                
+                <!-- CARD DETAIL UTAMA -->
+                <div class="bg-slate-900 rounded-2xl border border-slate-800 p-6 shadow-xl space-y-6">
+                    <!-- Header Info Barang -->
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+                        <div>
+                            <div class="flex flex-wrap items-center gap-2 mb-1.5">
+                                <span id="detailTrackingId" class="text-xs font-mono-custom font-bold text-amber-400 bg-amber-500/10 py-1 px-2.5 rounded-md border border-amber-500/20">
+                                    TRACKING NO: -
+                                </span>
+                                <span id="detailContainerId" class="text-xs font-mono-custom font-bold text-sky-400 bg-sky-400/10 py-1 px-2.5 rounded-md border border-sky-400/20">
+                                    CONTAINER: -
+                                </span>
+                            </div>
+                            <h2 id="detailItemName" class="font-extrabold text-lg md:text-xl text-white">-</h2>
+                            <p class="text-xs text-slate-400 mt-1">Asal Pengiriman: <span id="detailOrigin" class="text-slate-300 font-semibold">-</span></p>
+                        </div>
+
+                        <div class="bg-slate-950 p-3 rounded-xl border border-slate-800/80 flex flex-col justify-center md:text-right min-w-[120px]">
+                            <span class="text-[10px] text-slate-500 uppercase tracking-wider font-bold">Total Muatan</span>
+                            <span id="detailQty" class="text-base md:text-lg font-extrabold text-amber-500 mt-0.5">-</span>
+                            <span id="detailWeight" class="text-[10px] text-slate-400 mt-0.5">-</span>
+                        </div>
+                    </div>
+
+                    <!-- Spesifikasi Tabel Metadata -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 bg-slate-950 p-4 rounded-xl border border-slate-800/80 text-xs">
+                        <div>
+                            <p class="text-slate-500 font-semibold mb-0.5">Kategori</p>
+                            <p id="detailCategory" class="font-bold text-slate-200">-</p>
+                        </div>
+                        <div>
+                            <p class="text-slate-500 font-semibold mb-0.5">Kapal Pengangkut</p>
+                            <p id="detailCarrier" class="font-bold text-slate-200">-</p>
+                        </div>
+                        <div>
+                            <p class="text-slate-500 font-semibold mb-0.5">Tujuan Akhir</p>
+                            <p id="detailDestination" class="font-bold text-slate-200">-</p>
+                        </div>
+                        <div>
+                            <p class="text-slate-500 font-semibold mb-0.5">Update Terakhir</p>
+                            <p id="detailLastUpdated" class="font-bold text-slate-200 font-mono-custom">-</p>
+                        </div>
+                    </div>
+
+                    <!-- VISUALISASI JALUR LAUT DARI WETAR -->
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 relative overflow-hidden">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                                <span class="animate-pulse flex h-2 w-2 rounded-full bg-amber-500"></span>
+                                Rute Jalur Laut (Selat Banda - Laut Jawa)
+                            </h3>
+                            <span id="ruteIndicator" class="text-[10px] text-amber-500 font-mono-custom font-semibold">Wetar Island Site ➔ Kupang</span>
+                        </div>
+
+                        <!-- SCHEMATIC MAP SVG -->
+                        <div class="h-28 bg-slate-900 rounded-lg relative flex items-center justify-between px-6 border border-slate-800">
+                            <!-- Background Map Grids -->
+                            <div class="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:1rem_1rem] opacity-25"></div>
+
+                            <!-- STARTING POINT (WETAR) -->
+                            <div class="z-10 flex flex-col items-center">
+                                <div class="w-10 h-10 rounded-full bg-slate-950 border-2 border-amber-500 flex items-center justify-center text-lg shadow-lg shadow-amber-500/10">
+                                    🏝️
+                                </div>
+                                <span class="text-[9px] font-bold text-slate-300 mt-1">Wetar Site</span>
+                            </div>
+
+                            <!-- JALUR LAUT -->
+                            <div class="flex-1 h-1 bg-slate-800 mx-2 relative rounded-full">
+                                <div id="mapProgressBar" class="absolute top-0 left-0 h-full bg-gradient-to-r from-amber-500 to-sky-400 rounded-full transition-all duration-1000" style="width: 0%"></div>
+                                
+                                <!-- Kapal Berlayar Animasi -->
+                                <div id="mapVesselContainer" class="absolute -top-3.5 transition-all duration-1000" style="left: 0%;">
+                                    <div class="bg-slate-950 border border-amber-400 p-1 rounded-full shadow-lg floating-ship flex items-center justify-center">
+                                        <span class="text-xs">🚢</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- DESTINATION POINT -->
+                            <div class="z-10 flex flex-col items-center">
+                                <div id="mapDestinationIcon" class="w-10 h-10 rounded-full bg-slate-950 border-2 border-slate-700 flex items-center justify-center text-lg shadow-lg">
+                                    🏢
+                                </div>
+                                <span id="mapDestinationLabel" class="text-[9px] font-bold text-slate-300 mt-1 max-w-[80px] text-center truncate">Surabaya</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PROGRESS MILESTONES (HORIZONTAL STEPS) -->
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-bold text-xs md:text-sm text-slate-200 flex items-center gap-2">
+                                <svg class="w-4 h-4 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" /></svg>
+                                Progres Logistik Kontainer
+                            </h3>
+                            <span class="text-[10px] text-amber-500 font-bold bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">Milestones</span>
+                        </div>
+
+                        <!-- Horizontal Trackers (Visible on larger screens) -->
+                        <div id="horizontalMilestones" class="grid grid-cols-6 gap-2 bg-slate-950 p-4 rounded-xl border border-slate-800/60">
+                            <!-- Milestone steps rendered dynamically -->
+                        </div>
+
+                        <!-- LINIMASA HISTORI DETAILED (VERTICAL TRACK) -->
+                        <div class="space-y-3">
+                            <h4 class="text-xs font-bold text-slate-400">Riwayat Perjalanan (Shopee Style)</h4>
+                            <div id="verticalTimeline" class="bg-slate-950 rounded-xl border border-slate-800/80 p-5 space-y-5">
+                                <!-- Timelines will be rendered here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ACTION CENTER & SIMULASI CHECKPOINT -->
+                <div class="bg-slate-900 rounded-2xl border border-slate-800 p-6 shadow-xl space-y-4">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 border-b border-slate-800 pb-3">
+                        <div>
+                            <h3 class="font-extrabold text-sm md:text-base text-slate-200">🛠️ Simulasi Update Posisi Kontainer</h3>
+                            <p class="text-[10px] md:text-xs text-slate-400">Gunakan bagian di bawah ini untuk memperbarui lokasi barang secara manual.</p>
+                        </div>
+                        <button
+                            id="btnAdvance"
+                            onclick="advanceStatus()"
+                            class="bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-[10px] md:text-xs py-1.5 px-3 rounded-md transition-all shadow shadow-sky-500/10 flex items-center gap-1.5 active:scale-95"
+                        >
+                            🚀 Majukan Status Kontainer
+                        </button>
+                    </div>
+
+                    <form id="updateStatusForm" onsubmit="handleStatusSubmit(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="space-y-1.5">
+                            <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wide">Pilih Status Baru</label>
+                            <select
+                                id="statusInput"
+                                class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs text-slate-200 focus:outline-none focus:border-amber-500"
+                                required
+                            >
+                                <option value="">-- Pilih Status --</option>
+                                <option value="Draft & Packed">1. Draft & Packed (Gudang Asal)</option>
+                                <option value="Security Cleared">2. Security Cleared (Pintu Pelabuhan)</option>
+                                <option value="Loaded onto Vessel">3. Loaded onto Vessel (Dimuat LCT)</option>
+                                <option value="In Transit (Sea)">4. In Transit (Laut Banda)</option>
+                                <option value="Arrived at Port">5. Arrived at Port (Bongkar Muat)</option>
+                                <option value="Delivered & Received">6. Delivered & Received (Sampai Tujuan)</option>
+                            </select>
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wide">Lokasi Saat Ini</label>
+                            <input
+                                type="text"
+                                id="locationInput"
+                                placeholder="Contoh: Selat Makassar / Pelabuhan Surabaya"
+                                class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs text-slate-200 focus:outline-none focus:border-amber-500"
+                                required
+                            />
+                        </div>
+
+                        <div class="space-y-1.5 md:col-span-3">
+                            <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wide">Keterangan / Detail Update</label>
+                            <div class="flex gap-2">
+                                <input
+                                    type="text"
+                                    id="descInput"
+                                    placeholder="Contoh: Kontainer telah diikat dengan aman di atas deck kapal LCT."
+                                    class="flex-1 bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-xs text-slate-200 focus:outline-none focus:border-amber-500"
+                                />
+                                <button
+                                    type="submit"
+                                    class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold px-5 rounded-lg transition-all text-xs flex items-center justify-center gap-1.5 active:scale-95"
+                                >
+                                    Kirim Update
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- MODAL POPUP: REGISTRASI OUTBOUND BARU -->
+    <div id="addModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-950/85 backdrop-blur-sm p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl animate-in fade-in zoom-in-95 duration-150">
+            <!-- Modal Header -->
+            <div class="bg-slate-950 p-4 border-b border-slate-800 flex items-center justify-between">
+                <div>
+                    <h3 class="font-bold text-sm md:text-base text-white">Daftarkan Outbound & Kontainer Baru</h3>
+                    <p class="text-[10px] md:text-xs text-slate-400">Tambahkan manifes logistik keluar dari Pulau Wetar</p>
+                </div>
+                <button onclick="closeAddModal()" class="text-slate-400 hover:text-slate-200 text-lg font-bold">✕</button>
+            </div>
+
+            <!-- Modal Form -->
+            <form onsubmit="handleNewShipment(event)" class="p-6 space-y-4 text-xs">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <label class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Tracking ID (Kustom/Otomatis)</label>
+                        <input type="text" id="newId" placeholder="Contoh: OB-2026-006" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:outline-none">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Nomor Kontainer</label>
+                        <input type="text" id="newContainerId" placeholder="Contoh: CON-WTR-8899" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:outline-none">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">SKU Barang</label>
+                        <input type="text" id="newSku" placeholder="Contoh: WTR-CU-CATH-05" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:outline-none" required>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Deskripsi Barang / Item</label>
+                        <input type="text" id="newItemName" placeholder="Contoh: Copper Cathode Grade A" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:outline-none" required>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Kategori Manifes</label>
+                        <select id="newCategory" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:outline-none">
+                            <option value="Produk Utama (Tembaga)">Produk Utama (Tembaga)</option>
+                            <option value="Sparepart / Komponen">Sparepart / Komponen</option>
+                            <option value="Aset / Alat Berat">Aset / Alat Berat</option>
+                            <option value="Limbah B3">Limbah B3</option>
+                            <option value="Scrap / Sampah Logistik">Scrap / Sampah Logistik</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Kapal Pengangkut (Carrier)</label>
+                        <input type="text" id="newCarrier" placeholder="Contoh: LCT Merdeka Jaya V.12" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:outline-none" required>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-2 col-span-1 sm:col-span-2">
+                        <div class="space-y-1">
+                            <label class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Qty</label>
+                            <input type="number" id="newQty" value="1" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:outline-none" required>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Satuan</label>
+                            <select id="newUnit" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:outline-none">
+                                <option value="Ton">Ton</option>
+                                <option value="Pcs">Pcs</option>
+                                <option value="Unit">Unit</option>
+                                <option value="Drum">Drum</option>
+                            </select>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Berat (Ton)</label>
+                            <input type="number" step="0.01" id="newWeight" value="0.5" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:outline-none" required>
+                        </div>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Asal Pelabuhan (Origin)</label>
+                        <input type="text" id="newOrigin" value="Wetar Island Site (Logistics Port)" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:outline-none" required>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Tujuan Pengiriman</label>
+                        <input type="text" id="newDestination" placeholder="Contoh: Gudang Utama Surabaya" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:outline-none" required>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-end space-x-3 pt-4 border-t border-slate-800">
+                    <button type="button" onclick="closeAddModal()" class="px-4 py-2 border border-slate-700 rounded-lg hover:bg-slate-800 text-slate-300 font-semibold">Batal</button>
+                    <button type="submit" class="px-5 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-lg shadow-lg">Daftarkan Manifes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 border-t border-slate-800 py-6 mt-12 text-center text-xs text-slate-500">
+        <p>© 2026 Wetar Island Copper Mine Logistical System. All Rights Reserved.</p>
+        <p class="mt-1">Sistem informasi lacak kontainer dan keamanan manifes logistik rute antar pulau.</p>
+    </footer>
+
+    <!-- LOGIKA JAVASCRIPT UTAMA (STATE MANAGEMENT) -->
+    <script>
+        // Data pengiriman awal yang merepresentasikan logistik nyata dari Wetar Island
+        let SHIPMENTS = [
+            {
+                id: "OB-2026-001",
+                containerId: "CON-WTR-8812",
+                sku: "WTR-CU-CATH-01",
+                itemName: "Copper Cathode Grade A",
+                category: "Produk Utama (Tembaga)",
+                qty: 25,
+                unit: "Ton",
+                weight: 25.0,
+                carrier: "LCT Merdeka Jaya V.12",
+                origin: "Wetar Island Site (Logistics Port)",
+                destination: "Gudang Utama Surabaya",
+                currentStatusIndex: 5, // 0 to 5
+                lastUpdated: "2026-07-16 14:30 WIT",
+                history: [
+                    { status: "Draft & Packed", location: "Warehouse Wetar Site", time: "2026-07-10 09:00 WIT", desc: "Barang dikemas dan dimasukkan ke dalam Kontainer CON-WTR-8812." },
+                    { status: "Security Cleared", location: "Security Port Gate Wetar", time: "2026-07-11 11:15 WIT", desc: "Pemeriksaan dokumen surat jalan & izin keluar selesai oleh Bea Cukai/Security." },
+                    { status: "Loaded onto Vessel", location: "Dermaga Wetar Island", time: "2026-07-12 16:40 WIT", desc: "Kontainer dinaikkan ke kapal LCT Merdeka Jaya V.12." },
+                    { status: "In Transit (Sea)", location: "Laut Banda", time: "2026-07-13 22:00 WIT", desc: "Kapal berlayar meninggalkan Pulau Wetar menuju Surabaya." },
+                    { status: "Arrived at Port", location: "Tanjung Perak Port, Surabaya", time: "2026-07-15 08:30 WIB", desc: "Kapal LCT sandar, kontainer dibongkar dan masuk area penumpukan port." },
+                    { status: "Delivered & Received", location: "Gudang Utama Surabaya", time: "2026-07-16 14:30 WIB", desc: "Barang telah diterima penuh oleh tim logistik Surabaya dalam kondisi segel utuh." }
+                ]
+            },
+            {
+                id: "OB-2026-002",
+                containerId: "CON-WTR-9905",
+                sku: "ASSET-EXC-042",
+                itemName: "Hydraulic Pump Excavator CAT 320",
+                category: "Aset / Alat Berat",
+                qty: 1,
+                unit: "Unit",
+                weight: 0.4,
+                carrier: "LCT Citra Bahari V.03",
+                origin: "Wetar Island Site (Workshop Dept)",
+                destination: "United Tractors Workshop Jakarta",
+                currentStatusIndex: 3,
+                lastUpdated: "2026-07-16 08:15 WIT",
+                history: [
+                    { status: "Draft & Packed", location: "Workshop Wetar Site", time: "2026-07-13 14:00 WIT", desc: "Pompa hidrolik rusak dikemas dalam peti kayu (Crate) siap repair." },
+                    { status: "Security Cleared", location: "Security Port Gate Wetar", time: "2026-07-14 10:00 WIT", desc: "Surat Izin Pengeluaran Barang (SIO) disetujui." },
+                    { status: "Loaded onto Vessel", location: "Dermaga Wetar Island", time: "2026-07-15 15:30 WIT", desc: "Peti kayu dimuat ke LCT Citra Bahari V.03." },
+                    { status: "In Transit (Sea)", location: "Selat Makassar (Mengarungi)", time: "2026-07-16 08:15 WIT", desc: "Estimasi perjalanan laut 3-4 hari menuju Pelabuhan Tanjung Priok." }
+                ]
+            },
+            {
+                id: "OB-2026-003",
+                containerId: "CON-WTR-4433",
+                sku: "WH-IBC-EMP-10",
+                itemName: "Empty IBC Tote Tank (1000L)",
+                category: "Konsumabel / Logistik",
+                qty: 12,
+                unit: "Pcs",
+                weight: 0.6,
+                carrier: "LCT Merdeka Jaya V.12",
+                origin: "Wetar Island Site (Warehouse Dept)",
+                destination: "Chemical Supplier Kupang",
+                currentStatusIndex: 2,
+                lastUpdated: "2026-07-16 16:50 WIT",
+                history: [
+                    { status: "Draft & Packed", location: "Warehouse Wetar Site", time: "2026-07-15 08:00 WIT", desc: "Penyusunan 12 Tangki kosong bilas pada palet kayu." },
+                    { status: "Security Cleared", location: "Security Port Gate Wetar", time: "2026-07-16 09:30 WIT", desc: "Inspeksi lingkungan hidup dan bea cukai selesai." },
+                    { status: "Loaded onto Vessel", location: "Dermaga Wetar Island", time: "2026-07-16 16:50 WIT", desc: "Sedang dilakukan proses lashing (pengikatan aman) di geladak kapal." }
+                ]
+            },
+            {
+                id: "OB-2026-004",
+                containerId: "CON-WTR-0021",
+                sku: "HAZ-B3-OIL-02",
+                itemName: "Oli Bekas (Used Lubricant Oil)",
+                category: "Limbah B3",
+                qty: 10,
+                unit: "Drum",
+                weight: 2.0,
+                carrier: "LCT Pratama Ocean",
+                origin: "Wetar Island Site (HSE Dept)",
+                destination: "PT Pengolah Limbah Nusantara, Ambon",
+                currentStatusIndex: 1,
+                lastUpdated: "2026-07-15 11:00 WIT",
+                history: [
+                    { status: "Draft & Packed", location: "HSE Storage Wetar", time: "2026-07-14 13:00 WIT", desc: "Pelabelan drum limbah B3 dan pengemasan drum besi ganda." },
+                    { status: "Security Cleared", location: "Security Port Gate Wetar", time: "2026-07-15 11:00 WIT", desc: "Manifest Logistik Limbah B3 disetujui Syahbandar. Siap menunggu kedatangan LCT Pratama." }
+                ]
+            },
+            {
+                id: "OB-2026-005",
+                containerId: "CON-WTR-1199",
+                sku: "SCRP-IRON-01",
+                itemName: "Scrap Iron (Besi Tua Sisa Project)",
+                category: "Scrap / Sampah Logistik",
+                qty: 5.5,
+                unit: "Ton",
+                weight: 5.5,
+                carrier: "Tugboat/Barge Nusantara V",
+                origin: "Wetar Island Site (Yard C)",
+                destination: "Surabaya Yard Penampung",
+                currentStatusIndex: 0,
+                lastUpdated: "2026-07-16 10:00 WIT",
+                history: [
+                    { status: "Draft & Packed", location: "Yard C Scrap Wetar", time: "2026-07-16 10:00 WIT", desc: "Besi tua dimuat ke dalam kontainer terbuka." }
+                ]
+            }
+        ];
+
+        const STATUS_STEPS = [
+            { title: "Draft & Packed", subtitle: "Gudang Wetar", icon: "📦" },
+            { title: "Security Cleared", subtitle: "Pintu Pelabuhan", icon: "🛡️" },
+            { title: "Loaded onto Vessel", subtitle: "Naik Kapal LCT", icon: "🏗️" },
+            { title: "In Transit (Sea)", subtitle: "Mengarungi Laut", icon: "🚢" },
+            { title: "Arrived at Port", subtitle: "Tiba Tujuan", icon: "⚓" },
+            { title: "Delivered & Received", subtitle: "Sampai Tujuan", icon: "🏢" }
+        ];
+
+        // Global State variables
+        let selectedId = "OB-2026-001";
+        let currentTab = "all"; // 'all', 'active', 'delivered'
+        let searchQuery = "";
+
+        // UI RENDERING ENGINES
+        function initApp() {
+            renderList();
+            renderDetail();
+            renderMetrics();
+            setupEventListeners();
+        }
+
+        function setupEventListeners() {
+            // Search Input Listeners
+            document.getElementById('desktopSearchInput').addEventListener('input', (e) => {
+                searchQuery = e.target.value;
+                document.getElementById('mobileSearchInput').value = searchQuery; // Sync
+                renderList();
+            });
+            document.getElementById('mobileSearchInput').addEventListener('input', (e) => {
+                searchQuery = e.target.value;
+                document.getElementById('desktopSearchInput').value = searchQuery; // Sync
+                renderList();
+            });
+        }
+
+        function renderMetrics() {
+            const total = SHIPMENTS.length;
+            const active = SHIPMENTS.filter(s => s.currentStatusIndex < 5).length;
+            const delivered = SHIPMENTS.filter(s => s.currentStatusIndex === 5).length;
+            const totalWeight = SHIPMENTS.reduce((acc, s) => acc + Number(s.weight || 0), 0);
+
+            document.getElementById('metricTotal').innerText = total;
+            document.getElementById('metricActive').innerText = active;
+            document.getElementById('metricDelivered').innerText = delivered;
+            document.getElementById('metricWeight').innerText = totalWeight.toFixed(1);
+
+            // Update Progress Bar animations
+            const activePercent = total > 0 ? (active / total) * 100 : 0;
+            const deliveredPercent = total > 0 ? (delivered / total) * 100 : 0;
+            
+            document.getElementById('metricActiveBar').style.width = `${activePercent}%`;
+            document.getElementById('metricDeliveredBar').style.width = `${deliveredPercent}%`;
+        }
+
+        function switchTab(tab) {
+            currentTab = tab;
+            // Update Tab UI Classnames
+            ['all', 'active', 'delivered'].forEach(t => {
+                const btn = document.getElementById(`tab-${t}`);
+                if (t === tab) {
+                    btn.className = "flex-1 text-center py-1.5 text-xs font-extrabold rounded-md transition-all bg-amber-500 text-slate-950";
+                } else {
+                    btn.className = "flex-1 text-center py-1.5 text-xs font-bold rounded-md transition-all text-slate-400 hover:text-slate-200";
+                }
+            });
+            renderList();
+        }
+
+        function renderList() {
+            const listContainer = document.getElementById('shipmentList');
+            listContainer.innerHTML = '';
+
+            const filtered = SHIPMENTS.filter(ship => {
+                const q = searchQuery.toLowerCase();
+                const matchesSearch = 
+                    ship.id.toLowerCase().includes(q) ||
+                    ship.containerId.toLowerCase().includes(q) ||
+                    ship.sku.toLowerCase().includes(q) ||
+                    ship.itemName.toLowerCase().includes(q) ||
+                    ship.destination.toLowerCase().includes(q);
+
+                if (!matchesSearch) return false;
+
+                if (currentTab === 'active') return ship.currentStatusIndex < 5;
+                if (currentTab === 'delivered') return ship.currentStatusIndex === 5;
+                return true;
+            });
+
+            document.getElementById('listCounter').innerText = `${filtered.length} item`;
+
+            if (filtered.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="py-12 text-center text-slate-500 text-xs">
+                        Tidak ada kargo yang ditemukan.
+                    </div>
+                `;
+                return;
+            }
+
+            filtered.forEach(ship => {
+                const isSelected = ship.id === selectedId;
+                const isDone = ship.currentStatusIndex === 5;
+                const statusInfo = STATUS_STEPS[ship.currentStatusIndex];
+
+                const card = document.createElement('div');
+                card.className = `p-3.5 rounded-xl border transition-all cursor-pointer ${
+                    isSelected 
+                        ? 'bg-gradient-to-r from-amber-500/10 to-slate-800/60 border-amber-500 shadow-md' 
+                        : 'bg-slate-950 hover:bg-slate-800/40 border-slate-800/80'
+                }`;
+                card.onclick = () => selectShipment(ship.id);
+
+                card.innerHTML = `
+                    <div class="flex items-start justify-between mb-1.5">
+                        <div class="flex flex-col">
+                            <span class="text-xs font-mono-custom font-extrabold text-amber-500">${ship.id}</span>
+                            <span class="text-[10px] text-slate-400 font-mono-custom font-semibold mt-0.5">${ship.containerId}</span>
+                        </div>
+                        <span class="text-[10px] font-bold px-2 py-0.5 rounded-full border ${
+                            isDone 
+                                ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' 
+                                : 'bg-blue-500/10 text-blue-400 border-blue-500/20'
+                        }">
+                            ${statusInfo.title}
+                        </span>
+                    </div>
+                    <h3 class="font-bold text-xs md:text-sm text-slate-200 line-clamp-1">${ship.itemName}</h3>
+                    <p class="text-[10px] text-slate-400 mt-1 flex items-center gap-1.5">
+                        <span>Tujuan:</span>
+                        <span class="text-slate-300 font-bold">${ship.destination}</span>
+                    </p>
+                    <div class="mt-2.5 pt-2 border-t border-slate-800/50 flex items-center justify-between text-[9px] text-slate-500">
+                        <span>Carrier: ${ship.carrier}</span>
+                        <span class="flex items-center gap-1">
+                            <span class="w-1 h-1 rounded-full bg-amber-500 inline-block animate-ping"></span>
+                            ${ship.lastUpdated.split(' ')[0]}
+                        </span>
+                    </div>
+                `;
+                listContainer.appendChild(card);
+            });
+        }
+
+        function selectShipment(id) {
+            selectedId = id;
+            renderList();
+            renderDetail();
+        }
+
+        // DETAIL VIEWER ENGINE
+        function renderDetail() {
+            const ship = SHIPMENTS.find(s => s.id === selectedId) || SHIPMENTS[0];
+            if (!ship) return;
+
+            // Main Info Binding
+            document.getElementById('detailTrackingId').innerText = `TRACKING NO: ${ship.id}`;
+            document.getElementById('detailContainerId').innerText = `CONTAINER: ${ship.containerId}`;
+            document.getElementById('detailItemName').innerText = ship.itemName;
+            document.getElementById('detailOrigin').innerText = ship.origin;
+            document.getElementById('detailQty').innerText = `${ship.qty} ${ship.unit}`;
+            document.getElementById('detailWeight').innerText = `(${ship.weight} Ton)`;
+
+            // Metadata Grid Binding
+            document.getElementById('detailCategory').innerText = ship.category;
+            document.getElementById('detailCarrier').innerText = ship.carrier;
+            document.getElementById('detailDestination').innerText = ship.destination;
+            document.getElementById('detailLastUpdated').innerText = ship.lastUpdated;
+
+            // MAP ROUTE SIMULATION ENGINE
+            const percentProgress = (ship.currentStatusIndex / 5) * 100;
+            document.getElementById('mapProgressBar').style.width = `${percentProgress}%`;
+            document.getElementById('mapVesselContainer').style.left = `calc(${percentProgress}% - 14px)`;
+
+            // Route Destination text
+            document.getElementById('ruteIndicator').innerText = `Wetar Island Site ➔ ${ship.destination}`;
+            const destWords = ship.destination.split(' ');
+            const shortDest = destWords[destWords.length - 1];
+            document.getElementById('mapDestinationLabel').innerText = shortDest;
+
+            const destIcon = document.getElementById('mapDestinationIcon');
+            if (ship.currentStatusIndex === 5) {
+                destIcon.className = "w-10 h-10 rounded-full bg-slate-950 border-2 border-emerald-500 flex items-center justify-center text-lg shadow-lg shadow-emerald-500/10";
+            } else {
+                destIcon.className = "w-10 h-10 rounded-full bg-slate-950 border-2 border-slate-700 flex items-center justify-center text-lg shadow-lg";
+            }
+
+            // HORIZONTAL MILESTONE BUILDER
+            const milestoneContainer = document.getElementById('horizontalMilestones');
+            milestoneContainer.innerHTML = '';
+            STATUS_STEPS.forEach((step, idx) => {
+                const isCompleted = idx <= ship.currentStatusIndex;
+                const isActive = idx === ship.currentStatusIndex;
+
+                const node = document.createElement('div');
+                node.className = "flex flex-col items-center text-center space-y-1 relative cursor-pointer group";
+                node.onclick = () => setStepStatus(idx);
+                node.innerHTML = `
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs border-2 transition-all ${
+                        isActive 
+                            ? 'bg-amber-500 text-slate-950 border-amber-400 font-bold scale-110 shadow-lg shadow-amber-500/20' 
+                            : isCompleted 
+                                ? 'bg-amber-500/20 text-amber-400 border-amber-500' 
+                                : 'bg-slate-900 text-slate-500 border-slate-800'
+                    }">
+                        ${step.icon}
+                    </div>
+                    <span class="text-[9px] md:text-[10px] font-extrabold ${isActive ? 'text-amber-500' : isCompleted ? 'text-slate-300' : 'text-slate-500'}">
+                        ${step.title}
+                    </span>
+                    <span class="text-[8px] text-slate-500 scale-90">
+                        ${step.subtitle}
+                    </span>
+                `;
+                milestoneContainer.appendChild(node);
+            });
+
+            // VERTICAL TIMELINE LOGS (SHOPEE STYLE)
+            const timelineContainer = document.getElementById('verticalTimeline');
+            timelineContainer.innerHTML = '';
+            ship.history.forEach((log, idx) => {
+                const isLatest = idx === 0;
+                const item = document.createElement('div');
+                item.className = "flex space-x-3.5 relative";
+                
+                let lineStr = '';
+                if (idx < ship.history.length - 1) {
+                    lineStr = `<div class="absolute left-2.5 top-6 bottom-0 w-[2px] bg-slate-800"></div>`;
+                }
+
+                item.innerHTML = `
+                    ${lineStr}
+                    <div class="relative flex items-start justify-center pt-1">
+                        ${isLatest ? `
+                            <span class="relative flex h-5 w-5">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-500 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-5 w-5 bg-amber-500 text-slate-950 font-bold text-[10px] items-center justify-center shadow-lg shadow-amber-500/20">
+                                    ✓
+                                </span>
+                            </span>
+                        ` : `
+                            <div class="h-5 w-5 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-[10px] text-slate-400 font-bold">
+                                ✓
+                            </div>
+                        `}
+                    </div>
+                    <div class="flex-1 space-y-1 bg-slate-900/50 p-3 rounded-lg border border-slate-800/40">
+                        <div class="flex items-center justify-between flex-wrap gap-2">
+                            <h4 class="text-xs font-extrabold tracking-wide ${isLatest ? 'text-amber-500' : 'text-slate-300'}">
+                                ${log.status}
+                            </h4>
+                            <span class="text-[9px] text-slate-500 font-mono-custom flex items-center gap-1">
+                                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                ${log.time}
+                            </span>
+                        </div>
+                        <p class="text-[10px] text-slate-400 flex items-center gap-1.5 font-medium">
+                            <span>Posisi:</span>
+                            <span class="text-slate-200 font-semibold">${log.location}</span>
+                        </p>
+                        <p class="text-[10px] text-slate-500 leading-relaxed italic pt-1 border-t border-slate-800/30 mt-1">
+                            ${log.desc}
+                        </p>
+                    </div>
+                `;
+                timelineContainer.appendChild(item);
+            });
+
+            // Adjust form input suggestions
+            if (ship.currentStatusIndex < 5) {
+                const nextStep = STATUS_STEPS[ship.currentStatusIndex + 1];
+                document.getElementById('statusInput').value = nextStep.title;
+                document.getElementById('locationInput').value = nextStep.subtitle;
+                document.getElementById('descInput').value = `Muatan transit di ${nextStep.subtitle}.`;
+                document.getElementById('btnAdvance').style.display = 'flex';
+            } else {
+                document.getElementById('statusInput').value = '';
+                document.getElementById('locationInput').value = '';
+                document.getElementById('descInput').value = '';
+                document.getElementById('btnAdvance').style.display = 'none';
+            }
+        }
+
+        // STATE UPDATE CONTROLLER FUNCTIONS
+        function setStepStatus(stepIndex) {
+            SHIPMENTS = SHIPMENTS.map(ship => {
+                if (ship.id === selectedId) {
+                    const step = STATUS_STEPS[stepIndex];
+                    const now = new Date();
+                    const dateStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')} WIT`;
+                    
+                    const newLog = {
+                        status: step.title,
+                        location: step.subtitle,
+                        time: dateStr,
+                        desc: `Koordinat logistik diubah secara manual ke tahap ${step.title} (${step.subtitle}).`
+                    };
+
+                    // Prevent duplicate historical entry if we are just selecting existing
+                    const isExist = ship.history.some(h => h.status === step.title);
+                    const newHistory = isExist ? ship.history : [newLog, ...ship.history];
+
+                    return {
+                        ...ship,
+                        currentStatusIndex: stepIndex,
+                        lastUpdated: dateStr,
+                        history: newHistory
+                    };
+                }
+                return ship;
+            });
+            renderList();
+            renderDetail();
+            renderMetrics();
+        }
+
+        function advanceStatus() {
+            const ship = SHIPMENTS.find(s => s.id === selectedId);
+            if (ship && ship.currentStatusIndex < 5) {
+                setStepStatus(ship.currentStatusIndex + 1);
+            }
+        }
+
+        function handleStatusSubmit(e) {
+            e.preventDefault();
+            const statusVal = document.getElementById('statusInput').value;
+            const locationVal = document.getElementById('locationInput').value;
+            const descVal = document.getElementById('descInput').value;
+
+            if (!statusVal || !locationVal) return;
+
+            SHIPMENTS = SHIPMENTS.map(ship => {
+                if (ship.id === selectedId) {
+                    const matchedIndex = STATUS_STEPS.findIndex(s => s.title === statusVal);
+                    const nextIndex = matchedIndex !== -1 ? matchedIndex : Math.min(ship.currentStatusIndex + 1, 5);
+                    const now = new Date();
+                    const dateStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')} WIT`;
+
+                    const newLog = {
+                        status: statusVal,
+                        location: locationVal,
+                        time: dateStr,
+                        desc: descVal || `Kargo berada di area ${locationVal}.`
+                    };
+
+                    return {
+                        ...ship,
+                        currentStatusIndex: nextIndex,
+                        lastUpdated: dateStr,
+                        history: [newLog, ...ship.history]
+                    };
+                }
+                return ship;
+            });
+
+            // Reset form
+            document.getElementById('statusInput').value = '';
+            document.getElementById('locationInput').value = '';
+            document.getElementById('descInput').value = '';
+
+            renderList();
+            renderDetail();
+            renderMetrics();
+        }
+
+        // MODAL MANAGEMENT
+        function openAddModal() {
+            // Pre-fill next logical ID
+            document.getElementById('newId').value = `OB-2026-${String(SHIPMENTS.length + 1).padStart(3, '0')}`;
+            document.getElementById('newContainerId').value = `CON-WTR-${Math.floor(1000 + Math.random() * 9000)}`;
+            document.getElementById('addModal').classList.remove('hidden');
+        }
+
+        function closeAddModal() {
+            document.getElementById('addModal').classList.add('hidden');
+        }
+
+        function handleNewShipment(e) {
+            e.preventDefault();
+            const newId = document.getElementById('newId').value || `OB-2026-${String(SHIPMENTS.length + 1).padStart(3, '0')}`;
+            const newContainerId = document.getElementById('newContainerId').value || `CON-WTR-${Math.floor(1000 + Math.random() * 9000)}`;
+            
+            const now = new Date();
+            const dateStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')} WIT`;
+
+            const created = {
+                id: newId,
+                containerId: newContainerId,
+                sku: document.getElementById('newSku').value,
+                itemName: document.getElementById('newItemName').value,
+                category: document.getElementById('newCategory').value,
+                carrier: document.getElementById('newCarrier').value,
+                qty: Number(document.getElementById('newQty').value) || 1,
+                unit: document.getElementById('newUnit').value,
+                weight: Number(document.getElementById('newWeight').value) || 0.0,
+                origin: document.getElementById('newOrigin').value,
+                destination: document.getElementById('newDestination').value,
+                currentStatusIndex: 0,
+                lastUpdated: dateStr,
+                history: [
+                    {
+                        status: "Draft & Packed",
+                        location: document.getElementById('newOrigin').value,
+                        time: dateStr,
+                        desc: "Outbound shipment berhasil didaftarkan di sistem pelacakan Wetar."
+                    }
+                ]
+            };
+
+            SHIPMENTS.unshift(created);
+            selectedId = newId;
+
+            closeAddModal();
+            initApp();
+        }
+
+        // Run application on load
+        window.onload = function () {
+            initApp();
+        }
+    </script>
+</body>
+</html>
