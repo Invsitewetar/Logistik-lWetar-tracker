@@ -228,10 +228,14 @@
                     </div>
 
                     <!-- Spesifikasi Tabel Metadata -->
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 bg-slate-950 p-4 rounded-xl border border-slate-800/80 text-xs">
+                    <div class="grid grid-cols-2 md:grid-cols-5 gap-4 bg-slate-950 p-4 rounded-xl border border-slate-800/80 text-xs">
                         <div>
                             <p class="text-slate-500 font-semibold mb-0.5">Kategori</p>
                             <p id="detailCategory" class="font-bold text-slate-200">-</p>
+                        </div>
+                        <div>
+                            <p class="text-slate-500 font-semibold mb-0.5">Departemen</p>
+                            <p id="detailDepartment" class="font-bold text-slate-200" style="color: #38bdf8;">-</p>
                         </div>
                         <div>
                             <p class="text-slate-500 font-semibold mb-0.5">Kapal Pengangkut</p>
@@ -429,6 +433,17 @@
                         </select>
                     </div>
                     <div class="space-y-1">
+                        <label class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Departemen Pengirim</label>
+                        <select id="newDepartment" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:outline-none">
+                            <option value="Logistics & Warehouse">Logistics & Warehouse</option>
+                            <option value="Maintenance Workshop">Maintenance Workshop</option>
+                            <option value="HSE (Environment)">HSE (Environment)</option>
+                            <option value="Mining Operations">Mining Operations</option>
+                            <option value="Civil & Construction">Civil & Construction</option>
+                            <option value="Administration">Administration</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1">
                         <label class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Kapal Pengangkut (Carrier)</label>
                         <input type="text" id="newCarrier" placeholder="Contoh: LCT Merdeka Jaya V.12" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:outline-none" required>
                     </div>
@@ -487,6 +502,7 @@
                 sku: "WTR-CU-CATH-01",
                 itemName: "Copper Cathode Grade A",
                 category: "Produk Utama (Tembaga)",
+                department: "Logistics & Warehouse",
                 qty: 25,
                 unit: "Ton",
                 weight: 25.0,
@@ -510,6 +526,7 @@
                 sku: "ASSET-EXC-042",
                 itemName: "Hydraulic Pump Excavator CAT 320",
                 category: "Aset / Alat Berat",
+                department: "Maintenance Workshop",
                 qty: 1,
                 unit: "Unit",
                 weight: 0.4,
@@ -531,6 +548,7 @@
                 sku: "WH-IBC-EMP-10",
                 itemName: "Empty IBC Tote Tank (1000L)",
                 category: "Konsumabel / Logistik",
+                department: "Logistics & Warehouse",
                 qty: 12,
                 unit: "Pcs",
                 weight: 0.6,
@@ -551,6 +569,7 @@
                 sku: "HAZ-B3-OIL-02",
                 itemName: "Oli Bekas (Used Lubricant Oil)",
                 category: "Limbah B3",
+                department: "HSE (Environment)",
                 qty: 10,
                 unit: "Drum",
                 weight: 2.0,
@@ -570,6 +589,7 @@
                 sku: "SCRP-IRON-01",
                 itemName: "Scrap Iron (Besi Tua Sisa Project)",
                 category: "Scrap / Sampah Logistik",
+                department: "Civil & Construction",
                 qty: 5.5,
                 unit: "Ton",
                 weight: 5.5,
@@ -749,6 +769,7 @@
 
             // Metadata Grid Binding
             document.getElementById('detailCategory').innerText = ship.category;
+            document.getElementById('detailDepartment').innerText = ship.department || "Logistics & Warehouse";
             document.getElementById('detailCarrier').innerText = ship.carrier;
             document.getElementById('detailDestination').innerText = ship.destination;
             document.getElementById('detailLastUpdated').innerText = ship.lastUpdated;
@@ -975,6 +996,7 @@
                 sku: document.getElementById('newSku').value,
                 itemName: document.getElementById('newItemName').value,
                 category: document.getElementById('newCategory').value,
+                department: document.getElementById('newDepartment').value,
                 carrier: document.getElementById('newCarrier').value,
                 qty: Number(document.getElementById('newQty').value) || 1,
                 unit: document.getElementById('newUnit').value,
