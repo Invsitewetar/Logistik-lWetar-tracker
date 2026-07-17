@@ -965,7 +965,12 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="space-y-1">
                         <label class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Nama Originator / Pengaju</label>
-                        <input type="text" id="newOriginator" value="Bayu Aji Sena" placeholder="Nama lengkap pengaju kargo" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:outline-none" required>
+                        <select id="newOriginator" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:outline-none" required>
+                            <option value="Bayu Aji Sena">Bayu Aji Sena (Maintenance)</option>
+                            <option value="Sandi Wijaya">Sandi Wijaya (Warehouse)</option>
+                            <option value="Uli Anshor">Uli Anshor (Maintenance)</option>
+                            <option value="Guntur Pratama">Guntur Pratama (HSE)</option>
+                        </select>
                     </div>
                     <div class="space-y-1">
                         <label class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Tracking ID (Otomatis)</label>
@@ -1010,7 +1015,12 @@
                     </div>
                     <div class="space-y-1">
                         <label class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Kapal Pengangkut (Carrier)</label>
-                        <input type="text" id="newCarrier" placeholder="Contoh: LCT P17 VOY 1215" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:outline-none" required>
+                        <select id="newCarrier" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:outline-none" required>
+                            <option value="LCT P17 VOY 1215">LCT P17 VOY 1215</option>
+                            <option value="LCT Merdeka Jaya V.12">LCT Merdeka Jaya V.12</option>
+                            <option value="LCT Citra Bahari V.03">LCT Citra Bahari V.03</option>
+                            <option value="LCT Pratama Ocean">LCT Pratama Ocean</option>
+                        </select>
                     </div>
 
                     <div class="grid grid-cols-2 gap-2">
@@ -1053,7 +1063,13 @@
 
                     <div class="space-y-1">
                         <label class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Nama Kontak PIC / No. Telp WA</label>
-                        <input type="text" id="newPhone" value="Nashrul Alfan" placeholder="Nama/No Telp untuk jemput barang" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:outline-none" required>
+                        <select id="newPhone" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:outline-none" required>
+                            <option value="Nashrul Alfan">Nashrul Alfan (Peti/Cargo)</option>
+                            <option value="Dani Setiawan">Dani Setiawan (Workshop)</option>
+                            <option value="Irfan Logis">Irfan Logis (Hub Kupang)</option>
+                            <option value="Pak Joko B3">Pak Joko B3 (B3 Waste)</option>
+                            <option value="Uxi Triani Putri / 0811 1191 070">Uxi Triani Putri / 0811 1191 070 (SST)</option>
+                        </select>
                     </div>
 
                     <div class="space-y-1">
@@ -1084,12 +1100,20 @@
 
                     <div class="space-y-1">
                         <label class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Manager Dept Penyetuju</label>
-                        <input type="text" id="newApprover" value="Wasiman W" placeholder="Nama Manager" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:outline-none" required>
+                        <select id="newApprover" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:outline-none" required>
+                            <option value="Wasiman W">Wasiman W (Maintenance)</option>
+                            <option value="Hendra Wijaya">Hendra Wijaya (Engineering)</option>
+                            <option value="Guntur Pratama">Guntur Pratama (HSE Manager)</option>
+                        </select>
                     </div>
 
                     <div class="space-y-1">
                         <label class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Nama Petugas Penerima Logistik</label>
-                        <input type="text" id="newLogisticReceiver" value="Lexi Albertus" placeholder="Nama petugas logistik penerima kargo" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:outline-none" required>
+                        <select id="newLogisticReceiver" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:outline-none" required>
+                            <option value="Lexi Albertus">Lexi Albertus</option>
+                            <option value="M. Yusuf">M. Yusuf</option>
+                            <option value="Samsul Ma'arif">Samsul Ma'arif</option>
+                        </select>
                     </div>
 
                     <div class="space-y-1 sm:col-span-2">
