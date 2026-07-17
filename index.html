@@ -79,7 +79,7 @@
                 <div>
                     <h1 class="font-bold text-sm md:text-lg text-amber-500 tracking-wide flex items-center gap-1.5">
                         WETAR LOGISTICS
-                        <span class="text-[10px] bg-slate-800 text-slate-300 font-mono-custom py-0.5 px-2 rounded-full border border-slate-700">TRACKER</span>
+                        <span class="text-[10px] bg-slate-800 text-slate-300 font-mono-custom py-0.5 px-2 rounded-full border border-slate-700">MAP ACTIVE v1.5</span>
                     </h1>
                     <p class="text-[10px] md:text-xs text-slate-400">Sistem Manifes & Pelacakan Logistik Terpadu</p>
                 </div>
@@ -298,7 +298,6 @@
                             </button>
                         </div>
 
-                        <!-- Header Info Barang -->
                         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-800 pr-32">
                             <div>
                                 <div class="flex flex-wrap items-center gap-2 mb-1.5">
@@ -320,7 +319,7 @@
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-2 md:grid-cols-5 gap-4 bg-slate-950 p-4 rounded-xl border border-slate-800/80 text-xs">
+                        <div class="grid grid-cols-2 md:grid-cols-6 gap-4 bg-slate-950 p-4 rounded-xl border border-slate-800/80 text-xs">
                             <div>
                                 <p class="text-slate-500 font-semibold mb-0.5">Kategori</p>
                                 <p id="detailCategory" class="font-bold text-slate-200">-</p>
@@ -332,6 +331,10 @@
                             <div>
                                 <p class="text-slate-500 font-semibold mb-0.5">Kapal Pengangkut</p>
                                 <p id="detailCarrier" class="font-bold text-slate-200">-</p>
+                            </div>
+                            <div>
+                                <p class="text-slate-500 font-semibold mb-0.5">Tgl Keluar LCT</p>
+                                <p id="detailLctDate" class="font-bold text-amber-500 font-mono-custom">-</p>
                             </div>
                             <div>
                                 <p class="text-slate-500 font-semibold mb-0.5">Tujuan Utama</p>
@@ -441,7 +444,7 @@
                         <div class="space-y-4">
                             <div class="flex items-center justify-between">
                                 <h3 class="font-bold text-xs md:text-sm text-slate-200 flex items-center gap-2">
-                                    <svg class="w-4 h-4 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" /></svg>
+                                    <svg class="w-4 h-4 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" stroke-width="2"/></svg>
                                     Progres Tahap Logistik
                                 </h3>
                                 <span class="text-[10px] text-amber-500 font-bold bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">Ubah Tahap Manual</span>
@@ -452,7 +455,7 @@
                                 <!-- Renders dynamically -->
                             </div>
 
-                            <!-- LINIMASA HISTORI DETAILED (SHOPEE STYLE) -->
+                            <!-- LINIMASA HISTORI DETAILED -->
                             <div class="space-y-3">
                                 <h4 class="text-xs font-bold text-slate-400">Riwayat Perjalanan (Shopee Style)</h4>
                                 <div id="verticalTimeline" class="bg-slate-950 rounded-xl border border-slate-800/80 p-5 space-y-5">
@@ -527,6 +530,7 @@
                     </div>
                 </div>
 
+                <!-- TAMPILAN 2: EXCEL FORM VIEW -->
                 <div id="screenExcelArea" class="hidden space-y-4">
                     <!-- Floating print action top of sheet -->
                     <div class="flex items-center justify-between bg-slate-900 border border-slate-800 p-4 rounded-xl shadow">
@@ -637,7 +641,6 @@
                             </div>
                         </div>
 
-                        <!-- APPROVAL BOX DENGAN TANDA TANGAN DIGITAL REALISTIS -->
                         <div class="border-2 border-black rounded overflow-hidden text-[9px]">
                             <div class="bg-black text-white text-center py-1 font-extrabold uppercase tracking-wide">
                                 Hand Over Detail & Approval Box
@@ -646,10 +649,7 @@
                                 <!-- Originator Sign -->
                                 <div class="p-2 flex flex-col justify-between items-center h-full">
                                     <p class="font-bold uppercase text-[7px]">Prepared / Submitted By</p>
-                                    <svg class="w-16 h-8 text-blue-600" viewBox="0 0 100 40" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M10,25 Q25,5 35,22 T55,18 T75,25 T90,15" stroke-linecap="round"/>
-                                        <path d="M20,20 L80,20" stroke-width="1" stroke-dasharray="2,2"/>
-                                    </svg>
+                                    <div class="h-8"></div> <!-- Kosong tanpa grafis coretan -->
                                     <div class="text-[7px] text-left w-full border-t border-gray-300 pt-0.5">
                                         <p>Name: <span id="excelSignUserName" class="font-bold">-</span></p>
                                         <p>Dept: <span id="excelSignUserDept">-</span></p>
@@ -659,9 +659,7 @@
                                 <!-- Manager Sign -->
                                 <div class="p-2 flex flex-col justify-between items-center h-full">
                                     <p class="font-bold uppercase text-[7px]">Manager Dept Approval</p>
-                                    <svg class="w-16 h-8 text-slate-800" viewBox="0 0 100 40" fill="none" stroke="currentColor" stroke-width="2.5">
-                                        <path d="M15,30 C30,10 40,5 45,25 C50,35 60,10 70,22 C75,28 85,15 90,30" stroke-linecap="round"/>
-                                    </svg>
+                                    <div class="h-8"></div> <!-- Kosong tanpa grafis coretan -->
                                     <div class="text-[7px] text-left w-full border-t border-gray-300 pt-0.5">
                                         <p>Name: <span id="excelSignMgrName" class="font-bold">-</span></p>
                                         <p>Dept: <span id="excelSignMgrDept">-</span></p>
@@ -671,9 +669,9 @@
                                 <!-- Warehouse Sign -->
                                 <div class="p-2 flex flex-col justify-between items-center h-full">
                                     <p class="font-bold uppercase text-[7px]">Received by Warehouse/Logistic</p>
-                                    <div class="text-gray-300 text-[8px] italic my-auto">STAMP & SIGN HERE</div>
+                                    <div class="h-8"></div> <!-- Kosong tanpa grafis coretan -->
                                     <div class="text-[7px] text-left w-full border-t border-gray-300 pt-0.5">
-                                        <p>Name: ________________</p>
+                                        <p>Name: <span id="excelSignLogName" class="font-bold">-</span></p>
                                         <p>Dept: Logistics</p>
                                     </div>
                                 </div>
@@ -681,7 +679,7 @@
                                 <!-- Destination Sign -->
                                 <div class="p-2 flex flex-col justify-between items-center h-full">
                                     <p class="font-bold uppercase text-[7px]">Received at Destination by</p>
-                                    <div class="text-gray-300 text-[8px] italic my-auto">STAMP & SIGN HERE</div>
+                                    <div class="h-8"></div> <!-- Kosong tanpa grafis coretan -->
                                     <div class="text-[7px] text-left w-full border-t border-gray-300 pt-0.5">
                                         <p>Name: ________________</p>
                                         <p>Dept: Vendor / Site</p>
@@ -717,6 +715,7 @@
         </div>
     </main>
 
+    <!-- AREA CETAK PRINT AREA CONTAINER (ONLY VISIBLE ON PRINT) -->
     <div id="printAreaContainer" class="hidden w-[210mm] min-h-[297mm] p-6 bg-white text-black text-[10px] leading-snug mx-auto border border-gray-300">
         <div class="grid grid-cols-4 items-center border-b-2 border-black pb-4 mb-3">
             <div class="col-span-1 flex space-x-1 items-center">
@@ -804,6 +803,7 @@
             </div>
         </div>
 
+        <!-- Approval Box Blank Area for Hand-Sign -->
         <div class="border-2 border-black rounded overflow-hidden">
             <div class="bg-black text-white text-center py-1 font-extrabold text-[9px] uppercase tracking-wide">
                 Hand Over Detail & Approval Box
@@ -811,9 +811,7 @@
             <div class="grid grid-cols-4 text-center border-t border-black divide-x divide-black h-24">
                 <div class="p-2 flex flex-col justify-between items-center">
                     <p class="font-bold text-[8px] uppercase">Prepared / Submitted By</p>
-                    <svg class="w-16 h-8 text-blue-600" viewBox="0 0 100 40" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M10,25 Q25,5 35,22 T55,18 T75,25 T90,15" stroke-linecap="round"/>
-                    </svg>
+                    <div class="h-8"></div>
                     <div class="text-[8px] text-left w-full border-t border-gray-300 pt-1">
                         <p>Name: <span id="signOriginatorName" class="font-bold">-</span></p>
                         <p>Dept: <span id="signOriginatorDept">-</span></p>
@@ -822,9 +820,7 @@
 
                 <div class="p-2 flex flex-col justify-between items-center">
                     <p class="font-bold text-[8px] uppercase">Manager Dept Approval</p>
-                    <svg class="w-16 h-8 text-slate-800" viewBox="0 0 100 40" fill="none" stroke="currentColor" stroke-width="2.5">
-                        <path d="M15,30 C30,10 40,5 45,25 C50,35 60,10 70,22 C75,28 85,15 90,30" stroke-linecap="round"/>
-                    </svg>
+                    <div class="h-8"></div>
                     <div class="text-[8px] text-left w-full border-t border-gray-300 pt-1">
                         <p>Name: <span id="signManagerName" class="font-bold">-</span></p>
                         <p>Dept: <span id="signManagerDept">-</span></p>
@@ -833,16 +829,16 @@
 
                 <div class="p-2 flex flex-col justify-between items-center">
                     <p class="font-bold text-[8px] uppercase">Received by Warehouse/Logistic</p>
-                    <div class="text-gray-300 text-[8px] italic my-auto">STAMP & SIGN HERE</div>
+                    <div class="h-8"></div>
                     <div class="text-[8px] text-left w-full border-t border-gray-300 pt-1">
-                        <p>Name: ________________</p>
+                        <p>Name: <span id="signLogName" class="font-bold">-</span></p>
                         <p>Dept: Logistics</p>
                     </div>
                 </div>
 
                 <div class="p-2 flex flex-col justify-between items-center">
                     <p class="font-bold text-[8px] uppercase">Received at Destination by</p>
-                    <div class="text-gray-300 text-[8px] italic my-auto">STAMP & SIGN HERE</div>
+                    <div class="h-8"></div>
                     <div class="text-[8px] text-left w-full border-t border-gray-300 pt-1">
                         <p>Name: ________________</p>
                         <p>Dept: Vendor / Site</p>
@@ -888,7 +884,7 @@
                     </div>
                     <div class="space-y-1">
                         <label class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Tracking ID (Otomatis)</label>
-                        <input type="text" id="newId" placeholder="Contoh: OB-2026-005" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:outline-none">
+                        <input type="text" id="newId" placeholder="Contoh: OB-2026-006" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:outline-none">
                     </div>
                     <div class="space-y-1">
                         <label class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Nomor Kontainer</label>
@@ -901,6 +897,10 @@
                     <div class="space-y-1">
                         <label class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Deskripsi Barang / Item</label>
                         <input type="text" id="newItemName" placeholder="Contoh: RADIATOR" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:outline-none" required>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Tanggal Keluar LCT dari Wetar (Mendukung Backdate s/d Jan 2026)</label>
+                        <input type="date" id="newLctDepartureDate" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:outline-none" required>
                     </div>
                     <div class="space-y-1">
                         <label class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Kategori Manifes</label>
@@ -966,7 +966,7 @@
                     </div>
 
                     <div class="space-y-1">
-                        <label class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Nama Kontak / No. Telp WA</label>
+                        <label class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Nama Kontak PIC / No. Telp WA</label>
                         <input type="text" id="newPhone" value="Nashrul Alfan" placeholder="Nama/No Telp untuk jemput barang" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:outline-none" required>
                     </div>
 
@@ -999,6 +999,11 @@
                     <div class="space-y-1">
                         <label class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Manager Dept Penyetuju</label>
                         <input type="text" id="newApprover" value="Wasiman W" placeholder="Nama Manager" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:outline-none" required>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Nama Petugas Penerima Logistik</label>
+                        <input type="text" id="newLogisticReceiver" value="M. Yusuf" placeholder="Nama petugas logistik penerima kargo" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:outline-none" required>
                     </div>
 
                     <div class="space-y-1 sm:col-span-2">
@@ -1035,14 +1040,14 @@
     </footer>
 
     <script>
-        // SISTEM CACHE-BUSTER OTOMATIS: Membersihkan database lama di browser user agar peta langsung berfungsi
-        const SYSTEM_VERSION = "v13_fleet_map";
+        // SISTEM CACHE-BUSTER OTOMATIS: Memaksa pembersihan cache database lama agar layout tidak rusak
+        const SYSTEM_VERSION = "v15_clean_backsigned";
         if (localStorage.getItem('wetar_system_version') !== SYSTEM_VERSION) {
             localStorage.removeItem('wetar_logistics_v12_kg');
             localStorage.setItem('wetar_system_version', SYSTEM_VERSION);
         }
 
-        // Data bawaan berkualitas tinggi bermotif persis berkas asli BTR-516 dan kasus logistik riil lainnya
+        // Data Manifes berkualitas tinggi yang mendukung LCT Backdate s.d. Januari 2026
         const DEFAULT_SHIPMENTS = [
             {
                 id: "OB-2026-001",
@@ -1064,8 +1069,10 @@
                 reason: "OTHER",
                 remarks: "Tembaga Katoda Grade A kemasan palet standar industri",
                 approver: "Wasiman W",
+                logisticReceiver: "M. Yusuf",
                 phone: "Nashrul Alfan",
                 deliveryAddress: "PT BUMI SUKSESINDO, SITE BANYUWANGI, JAWA TIMUR, INDONESIA",
+                lctDepartureDate: "2026-07-16",
                 currentStatusIndex: 5, // Delivered & Received
                 lastUpdated: "2026-07-16 14:30 WIT",
                 photo: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'><rect width='100%' height='100%' fill='%230f172a'/><rect x='30' y='50' width='240' height='110' fill='%23b45309' stroke='%23f59e0b' stroke-width='4'/><line x1='30' y1='105' x2='270' y2='105' stroke='%2378350f' stroke-width='2'/><text x='150' y='110' font-family='sans-serif' font-size='15' font-weight='black' fill='%23fef08a' text-anchor='middle'>PALLET TEMBAGA KATODA</text></svg>",
@@ -1098,16 +1105,18 @@
                 reason: "REPAIR",
                 remarks: "Komponen Hidrolik Utama eks Excavator CAT320 untuk rekondisi",
                 approver: "Hendra Wijaya",
+                logisticReceiver: "Syahrul Ramadhan",
                 phone: "Dani Setiawan",
                 deliveryAddress: "PANI GOLD PROJECT SITE, GORONTALO, SULAWESI, INDONESIA",
+                lctDepartureDate: "2026-05-10",
                 currentStatusIndex: 3, // Arrived at Kupang HUB
-                lastUpdated: "2026-07-16 14:30 WIT",
+                lastUpdated: "2026-05-12 14:30 WIT",
                 photo: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'><rect width='100%' height='100%' fill='%231e293b'/><rect x='40' y='30' width='220' height='140' fill='%2378350f' stroke='%23f59e0b' stroke-width='4'/><text x='150' y='110' font-family='sans-serif' font-size='14' font-weight='bold' fill='%23f59e0b' text-anchor='middle'>PETI HYDRAULIC PUMP</text></svg>",
                 history: [
-                    { status: "Arrived at Kupang HUB", location: "Transit Tenau Kupang", time: "2026-07-16 14:30 WIT", desc: "Kontainer telah tiba di pelabuhan transit Kupang dan masuk daftar tunggu muat kapal kontainer utama." },
-                    { status: "Loaded onto Vessel", location: "Dermaga Wetar Island", time: "2026-07-15 16:00 WIT", desc: "Dimuat di LCT Citra Bahari V.03 rute Wetar -> Kupang." },
-                    { status: "Security Cleared", location: "Security Port Gate Wetar", time: "2026-07-14 11:30 WIT", desc: "Pemeriksaan dokumen kepabeanan dan berat rill selesai." },
-                    { status: "Draft & Packed", location: "Workshop Wetar Site", time: "2026-07-13 09:00 WIT", desc: "Pengepakan unit pompa hidrolik ke peti kayu khusus logistik." }
+                    { status: "Arrived at Kupang HUB", location: "Transit Tenau Kupang", time: "2026-05-12 14:30 WIT", desc: "Kontainer telah tiba di pelabuhan transit Kupang." },
+                    { status: "Loaded onto Vessel", location: "Dermaga Wetar Island", time: "2026-05-11 16:00 WIT", desc: "Dimuat di LCT Citra Bahari V.03 rute Wetar -> Kupang." },
+                    { status: "Security Cleared", location: "Security Port Gate Wetar", time: "2026-05-10 11:30 WIT", desc: "Pemeriksaan dokumen kepabeanan selesai." },
+                    { status: "Draft & Packed", location: "Workshop Wetar Site", time: "2026-05-09 09:00 WIT", desc: "Pengepakan unit pompa hidrolik ke peti kayu khusus." }
                 ]
             },
             {
@@ -1130,15 +1139,17 @@
                 reason: "RETURN",
                 remarks: "Tote tank kosong sisa penyimpanan reagen kimia ramah lingkungan",
                 approver: "Guntur Pratama",
+                logisticReceiver: "Niko Aris",
                 phone: "Irfan Logis",
                 deliveryAddress: "SCM SITE KONAWE, SULAWESI TENGGARA, INDONESIA",
+                lctDepartureDate: "2026-03-24",
                 currentStatusIndex: 2, // Loaded onto Vessel
-                lastUpdated: "2026-07-16 14:30 WIT",
+                lastUpdated: "2026-03-24 14:30 WIT",
                 photo: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'><rect width='100%' height='100%' fill='%230f172a'/><rect x='60' y='40' width='180' height='120' fill='none' stroke='%23ef4444' stroke-width='4'/><circle cx='150' cy='100' r='30' fill='%231e293b' stroke='%23ef4444' stroke-width='2'/><text x='150' y='105' font-family='sans-serif' font-size='10' font-weight='bold' fill='%23ef4444' text-anchor='middle'>EMPTY TANK</text></svg>",
                 history: [
-                    { status: "Loaded onto Vessel", location: "Dermaga Wetar Island", time: "2026-07-16 14:30 WIT", desc: "8 unit IBC Tank kosong telah disusun rapi di dek LCT Merdeka Jaya V.12." },
-                    { status: "Security Cleared", location: "Security Port Gate Wetar", time: "2026-07-15 13:00 WIT", desc: "Surat jalan bebas residu berbahaya terbit dari Departemen HSE." },
-                    { status: "Draft & Packed", location: "Gudang Logistik Wetar", time: "2026-07-14 08:30 WIT", desc: "Pemberian tanda segel pembersihan tangki kosong." }
+                    { status: "Loaded onto Vessel", location: "Dermaga Wetar Island", time: "2026-03-24 14:30 WIT", desc: "8 unit IBC Tank kosong telah disusun rapi di dek LCT." },
+                    { status: "Security Cleared", location: "Security Port Gate Wetar", time: "2026-03-23 13:00 WIT", desc: "Surat jalan bebas residu berbahaya terbit." },
+                    { status: "Draft & Packed", location: "Gudang Logistik Wetar", time: "2026-03-22 08:30 WIT", desc: "Pemberian tanda segel pembersihan tangki kosong." }
                 ]
             },
             {
@@ -1159,16 +1170,18 @@
                 origin: "Wetar Island Site",
                 destination: "Konawe SCM",
                 reason: "RETURN",
-                remarks: "Limbah oli bekas mesin operasional tambang untuk pengolahan B3 berizin",
+                remarks: "Limbah oli bekas mesin operasional tambang untuk pengolahan B3",
                 approver: "Guntur Pratama",
+                logisticReceiver: "Pak Joko B3",
                 phone: "Pak Joko B3",
                 deliveryAddress: "SULAWESI CAHAYA MINERAL (SCM), RECYCLING DEPOT SULAWESI, INDONESIA",
+                lctDepartureDate: "2026-01-15",
                 currentStatusIndex: 1, // Security Cleared
-                lastUpdated: "2026-07-15 16:30 WIT",
+                lastUpdated: "2026-01-15 16:30 WIT",
                 photo: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'><rect width='100%' height='100%' fill='%230f172a'/><circle cx='150' cy='100' r='45' fill='%231e293b' stroke='%23ef4444' stroke-width='5'/><path d='M150,75 L150,110' stroke='%23ef4444' stroke-width='6' stroke-linecap='round'/><circle cx='150' cy='125' r='5' fill='%23ef4444'/><text x='150' y='170' font-family='sans-serif' font-size='12' font-weight='bold' fill='%23ef4444' text-anchor='middle'>HAZARDOUS WASTE B3</text></svg>",
                 history: [
-                    { status: "Security Cleared", location: "Security Port Gate Wetar", time: "2026-07-15 16:30 WIT", desc: "Manifest Manifest limbah beracun B3 dari KLHK telah diverifikasi dan lolos segel pelabuhan." },
-                    { status: "Draft & Packed", location: "Temporary Storage Wetar HSE", time: "2026-07-14 13:00 WIT", desc: "Pengisian drum baja bersegel karet anti bocor." }
+                    { status: "Security Cleared", location: "Security Port Gate Wetar", time: "2026-01-15 16:30 WIT", desc: "Manifest Manifest limbah beracun B3 dari KLHK telah diverifikasi." },
+                    { status: "Draft & Packed", location: "Temporary Storage Wetar HSE", time: "2026-01-14 13:00 WIT", desc: "Pengisian drum baja bersegel karet anti bocor." }
                 ]
             },
             {
@@ -1191,13 +1204,15 @@
                 reason: "REPAIR",
                 remarks: "Blok silinder mesin komatsu GD705 untuk overhaul di workshop Surabaya",
                 approver: "Wasiman W",
+                logisticReceiver: "Samsul Ma'arif",
                 phone: "Nashrul Alfan",
                 deliveryAddress: "WORKSHOP UTAMA PATRA JAYA, SURABAYA, JAWA TIMUR",
+                lctDepartureDate: "2026-01-02",
                 currentStatusIndex: 0, // Draft & Packed
-                lastUpdated: "2026-07-17 15:00 WIT",
+                lastUpdated: "2026-01-02 15:00 WIT",
                 photo: "",
                 history: [
-                    { status: "Draft & Packed", location: "Workshop Wetar Site", time: "2026-07-17 15:00 WIT", desc: "Pendaftaran unit blok silinder mesin raksasa Komatsu untuk overhaul." }
+                    { status: "Draft & Packed", location: "Workshop Wetar Site", time: "2026-01-02 15:00 WIT", desc: "Pendaftaran unit blok silinder mesin raksasa Komatsu untuk overhaul." }
                 ]
             }
         ];
@@ -1528,7 +1543,7 @@
                         <span>Carrier: ${ship.carrier}</span>
                         <span class="flex items-center gap-1">
                             <span class="w-1.5 h-1.5 rounded-full bg-amber-500 inline-block animate-ping"></span>
-                            ${ship.lastUpdated.split(' ')[0]}
+                            ${ship.lctDepartureDate || ship.lastUpdated.split(' ')[0]}
                         </span>
                     </div>
                 `;
@@ -1561,6 +1576,7 @@
                 document.getElementById('detailCategory').innerText = "-";
                 document.getElementById('detailDepartment').innerText = "-";
                 document.getElementById('detailCarrier').innerText = "-";
+                document.getElementById('detailLctDate').innerText = "-";
                 document.getElementById('detailDestination').innerText = "-";
                 document.getElementById('detailLastUpdated').innerText = "-";
                 document.getElementById('detailDeliveryAddress').innerText = "Silakan klik Outbound Baru di kanan atas.";
@@ -1586,6 +1602,7 @@
             document.getElementById('detailCategory').innerText = ship.category;
             document.getElementById('detailDepartment').innerText = ship.department || "Maintenance Workshop";
             document.getElementById('detailCarrier').innerText = ship.carrier;
+            document.getElementById('detailLctDate').innerText = ship.lctDepartureDate || "Default Date";
             document.getElementById('detailDestination').innerText = ship.destination;
             document.getElementById('detailLastUpdated').innerText = ship.lastUpdated;
             document.getElementById('detailDeliveryAddress').innerText = ship.deliveryAddress || "-";
@@ -1754,7 +1771,7 @@
             const ship = SHIPMENTS.find(s => s.id === selectedId);
             if (!ship) return;
 
-            document.getElementById('excelPrintDate').innerText = ship.lastUpdated.split(' ')[0];
+            document.getElementById('excelPrintDate').innerText = ship.lctDepartureDate || ship.lastUpdated.split(' ')[0];
             document.getElementById('excelPrintRef').innerText = `LOG-BKP/BTR-${ship.id.split('-').pop()}`;
             document.getElementById('excelContainerHighlight').innerText = ship.containerId;
             document.getElementById('excelTrackingHighlight').innerText = ship.id;
@@ -1792,10 +1809,12 @@
             document.getElementById('excelPhoneCell').innerText = ship.phone || "-";
             document.getElementById('excelRemarksCell').innerText = ship.remarks || "-";
 
+            // Approval Box Tanpa Tanda Tangan Corengan Kuning
             document.getElementById('excelSignUserName').innerText = ship.originator || "Bayu Aji Sena";
             document.getElementById('excelSignUserDept').innerText = ship.department || "Maintenance";
             document.getElementById('excelSignMgrName').innerText = ship.approver || "Wasiman W";
             document.getElementById('excelSignMgrDept').innerText = "Maintenance Manager";
+            document.getElementById('excelSignLogName').innerText = ship.logisticReceiver || "M. Yusuf";
 
             // Atur checkbox checklist
             document.getElementById('exCheckRepair').checked = false;
@@ -1812,9 +1831,8 @@
             else document.getElementById('exCheckOther').checked = true;
         }
 
-        // SYNC PRINT AREA (UNTUK KEBUTUHAN PRINT SYSTEM DI BELAKANG LAYAR)
         function syncPrintArea(ship) {
-            document.getElementById('printDateStr').innerText = ship.lastUpdated.split(' ')[0];
+            document.getElementById('printDateStr').innerText = ship.lctDepartureDate || ship.lastUpdated.split(' ')[0];
             document.getElementById('printRegisterNum').innerText = `LOG-BKP/BTR-${ship.id.split('-').pop()}`;
             document.getElementById('printContainerSorotan').innerText = ship.containerId;
             document.getElementById('printTrackingSorotan').innerText = ship.id;
@@ -1849,10 +1867,12 @@
             document.getElementById('printPhoneCell').innerText = ship.phone || "-";
             document.getElementById('printRemarksCell').innerText = ship.remarks || "-";
 
+            // Approval Box Tanpa Tanda Tangan Corengan Kuning
             document.getElementById('signOriginatorName').innerText = ship.originator || "Bayu Aji Sena";
             document.getElementById('signOriginatorDept').innerText = ship.department || "Maintenance";
             document.getElementById('signManagerName').innerText = ship.approver || "Wasiman W";
             document.getElementById('signManagerDept').innerText = "Maintenance";
+            document.getElementById('signLogName').innerText = ship.logisticReceiver || "M. Yusuf";
 
             document.getElementById('checkRepair').checked = false;
             document.getElementById('checkCalibration').checked = false;
@@ -2017,7 +2037,7 @@
                 "ID Outbound", "No Kontainer", "Originator", "SKU / Cost Center", "Deskripsi Barang", 
                 "Kategori", "Departemen", "Qty", "Satuan", "Berat (KG)", "Panjang (CM)", 
                 "Lebar (CM)", "Tinggi (CM)", "Carrier (Kapal)", "Pelabuhan Asal", "Tujuan Utama", 
-                "Detail Alamat Penerima", "Status Terakhir", "Update Terakhir"
+                "Tanggal Keluar LCT", "Detail Alamat Penerima", "Status Terakhir", "Update Terakhir"
             ];
             
             csvContent += headers.join(",") + "\r\n";
@@ -2029,7 +2049,7 @@
                     `"${ship.itemName.replace(/"/g, '""')}"`, `"${ship.category}"`, 
                     `"${ship.department || 'Maintenance Workshop'}"`, ship.qty, ship.unit, ship.weight,
                     ship.length || 200, ship.width || 100, ship.height || 190, `"${ship.carrier}"`,
-                    `"${ship.origin}"`, `"${ship.destination}"`, `"${(ship.deliveryAddress || '').replace(/"/g, '""')}"`,
+                    `"${ship.origin}"`, `"${ship.destination}"`, `"${ship.lctDepartureDate || ''}"`, `"${(ship.deliveryAddress || '').replace(/"/g, '""')}"`,
                     `"${currentStatus}"`, `"${ship.lastUpdated}"`
                 ];
                 csvContent += row.join(",") + "\r\n";
@@ -2050,6 +2070,14 @@
         function openAddModal() {
             document.getElementById('newId').value = `OB-2026-00${SHIPMENTS.length + 1}`;
             document.getElementById('newContainerId').value = `CON-WTR-${Math.floor(1000 + Math.random() * 9000)}`;
+            
+            // Atur default tanggal keluar LCT ke tanggal hari ini
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+            document.getElementById('newLctDepartureDate').value = `${yyyy}-${mm}-${dd}`;
+            
             tempPhotoBase64 = "";
             document.getElementById('newPhoto').value = "";
             document.getElementById('addModal').classList.remove('hidden');
@@ -2083,11 +2111,13 @@
                 width: Number(document.getElementById('newWid').value) || 100,
                 height: Number(document.getElementById('newHei').value) || 190,
                 approver: document.getElementById('newApprover').value,
+                logisticReceiver: document.getElementById('newLogisticReceiver').value,
                 reason: document.getElementById('newReason').value,
                 remarks: document.getElementById('newRemarks').value,
                 phone: document.getElementById('newPhone').value,
                 origin: document.getElementById('newOrigin').value,
                 destination: document.getElementById('newDestination').value,
+                lctDepartureDate: document.getElementById('newLctDepartureDate').value,
                 deliveryAddress: document.getElementById('newDeliveryAddress').value,
                 photo: tempPhotoBase64,
                 currentStatusIndex: 0,
@@ -2128,10 +2158,3 @@
     </script>
 </body>
 </html>
-```
-`eof`
-
-### 💡 Panduan Setelah Melakukan Copy-Paste Kode Baru:
-1. **Lakukan Push ke GitHub**: Pastikan Anda telah melakukan *commit* dan *push* dengan sukses di *repository* `wetar-logistics-tracker`.
-2. **Buka Web di Jendela Penyamaran (Incognito Mode)**: Buka tautan `logistik-wetar-tracker.vercel.app` menggunakan Incognito. Ini adalah cara termudah dan tercepat untuk membuktikan bahwa kodenya sudah berganti, karena Incognito **sama sekali tidak menyimpan cache** web sebelumnya.
-3. **Peta Monitoring Global Langsung Terbit**: Sistem pembersih otomatis kami akan langsung menghapus database lama kargo Anda di browser dan memunculkan panel **"PETA MONITORING ALUR KONTAINER GLOBAL"** lengkap dengan tag kontainer interaktif secara instan!
