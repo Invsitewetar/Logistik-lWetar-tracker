@@ -41,7 +41,7 @@
             animation: float 3s ease-in-out infinite;
         }
 
-        /* SISTEM STYLE KHUSUS PRINT FORM EXCEL */
+        /* SISTEM STYLE KHUSUS PRINT FORM EXCEL LANDSCAPE */
         @media print {
             body {
                 background: white !important;
@@ -67,11 +67,17 @@
             .no-print {
                 display: none !important;
             }
+            /* MEMAKSA BROWSER UNTUK MENCETAK SECARA LANDSCAPE A4 */
+            @page {
+                size: A4 landscape;
+                margin: 4mm 6mm 4mm 6mm; /* Menghilangkan info sistem header/footer browser */
+            }
         }
     </style>
 </head>
 <body class="min-h-screen bg-slate-950 text-slate-100 font-sans antialiased pb-12">
 
+    <!-- HEADER NAVIGASI UTAMA -->
     <header class="sticky top-0 z-30 bg-slate-900/95 backdrop-blur border-b border-slate-800 shadow-md no-print">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2">
             <div class="flex items-center space-x-3">
@@ -79,7 +85,7 @@
                 <div>
                     <h1 class="font-bold text-sm md:text-lg text-amber-500 tracking-wide flex items-center gap-1.5">
                         WETAR LOGISTICS
-                        <span class="text-[10px] bg-slate-800 text-slate-300 font-mono-custom py-0.5 px-2 rounded-full border border-slate-700">MAP ACTIVE v1.5</span>
+                        <span class="text-[10px] bg-slate-800 text-slate-300 font-mono-custom py-0.5 px-2 rounded-full border border-slate-700">MAP ACTIVE v1.6</span>
                     </h1>
                     <p class="text-[10px] md:text-xs text-slate-400">Sistem Manifes & Pelacakan Logistik Terpadu</p>
                 </div>
@@ -129,6 +135,7 @@
         </div>
     </header>
 
+    <!-- SEARCH BAR PENCARIAN -->
     <div class="max-w-7xl mx-auto px-4 pt-4 sm:px-6 lg:px-8 no-print">
         <div class="relative w-full">
             <input
@@ -146,6 +153,7 @@
     <!-- MAIN CONTAINER -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 no-print">
         
+        <!-- RINGKASAN METRIK DASHBOARD -->
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             <div class="bg-gradient-to-br from-slate-900 to-slate-950 p-4 rounded-xl border border-slate-800 shadow-sm relative overflow-hidden">
                 <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Total Outbound</p>
@@ -169,7 +177,7 @@
                 </div>
             </div>
 
-            <div class="bg-gradient-to-br from-slate-900 to-slate-950 p-4 rounded-xl border border-slate-800 shadow-sm">
+            <div class="bg-gradient-to-br from-slate-900 to-slate-950 p-4 rounded-xl border border-slate-800/80 shadow-sm">
                 <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Tiba Di Tujuan (Delivered)</p>
                 <div class="flex items-baseline justify-between mt-1">
                     <span id="metricDelivered" class="text-2xl font-extrabold text-emerald-400">0</span>
@@ -180,7 +188,7 @@
                 </div>
             </div>
 
-            <div class="bg-gradient-to-br from-slate-900 to-slate-950 p-4 rounded-xl border border-slate-800 shadow-sm">
+            <div class="bg-gradient-to-br from-slate-900 to-slate-950 p-4 rounded-xl border border-slate-800/80 shadow-sm">
                 <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Total Berat Keluar Site</p>
                 <div class="flex items-baseline justify-between mt-1">
                     <span id="metricWeight" class="text-2xl font-extrabold text-sky-400">0 KG</span>
@@ -192,6 +200,7 @@
             </div>
         </div>
 
+        <!-- COMMAND CENTER PETA MONITORING GLOBAL -->
         <div id="fleetCommandSection" class="bg-slate-900 rounded-2xl border border-slate-800 p-6 shadow-xl mb-6 no-print space-y-4">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 border-b border-slate-800 pb-3">
                 <div class="flex items-center gap-2.5">
@@ -357,7 +366,7 @@
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
                             
                             <!-- BAR KOLOM VISUALISASI JALUR LAUT DARI WETAR -->
                             <div class="md:col-span-2 bg-slate-950 p-4 rounded-xl border border-slate-800 relative overflow-hidden flex flex-col justify-between">
@@ -530,183 +539,218 @@
                     </div>
                 </div>
 
-                <!-- TAMPILAN 2: EXCEL FORM VIEW -->
+                <!-- TAMPILAN 2: EXCEL FORM VIEW (DILAYAR UTAMA) -->
                 <div id="screenExcelArea" class="hidden space-y-4">
                     <!-- Floating print action top of sheet -->
                     <div class="flex items-center justify-between bg-slate-900 border border-slate-800 p-4 rounded-xl shadow">
                         <div>
-                            <h3 class="font-extrabold text-sm text-white">📄 Lembar Form Excel Terintegrasi</h3>
-                            <p class="text-[10px] text-slate-400">Desain persis berkas BKP/BTR Wetar. Klik Cetak di kanan untuk cetak kertas/PDF.</p>
+                            <h3 class="font-extrabold text-sm text-white">📄 Lembar Form Excel Terintegrasi (Lanskap)</h3>
+                            <p class="text-[10px] text-slate-400">Layout horizontal berbasis lanskap persis berkas asli BKP/BTR Wetar. Klik Cetak di kanan untuk menyimpan kertas/PDF.</p>
                         </div>
                         <button
                             onclick="window.print()"
                             class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs py-2 px-4 rounded-lg shadow-lg active:scale-95 transition-all flex items-center gap-1.5"
                         >
-                            🖨️ Cetak / Simpan PDF (A4)
+                            🖨️ Cetak / Simpan PDF (A4 Lanskap)
                         </button>
                     </div>
 
-                    <!-- CONTAINER KERTAS PUTIH EXCEL PAPER VIEW -->
-                    <div class="bg-white text-black p-8 rounded-xl border border-slate-300 shadow-2xl overflow-x-auto min-w-[780px]">
-                        
-                        <!-- Header Form Merdeka -->
-                        <div class="grid grid-cols-4 items-center border-b-2 border-black pb-4 mb-3 text-[10px]">
-                            <div class="col-span-1 flex space-x-1 items-center">
-                                <span class="font-black text-lg tracking-tight text-yellow-600">MERDEKA</span>
-                                <span class="text-[7px] leading-tight font-extrabold text-gray-500">COPPER GOLD</span>
-                            </div>
-                            <div class="col-span-2 text-center">
-                                <h2 class="font-black text-[11px] tracking-wide">OUTBOUND FORM MATERIAL REQUEST FROM BKP/BTR WETAR SITE</h2>
-                                <p class="text-[8px] font-black text-gray-700">DELIVER TO VENDOR, CONTRACTOR DOMESTIC AND INTERNATIONAL</p>
-                            </div>
-                            <div class="col-span-1 text-right text-[8px] font-bold">
-                                <p>Date: <span id="excelPrintDate">-</span></p>
-                                <p>REF NR REGISTER NUMBER: <span id="excelPrintRef" class="underline">LOG-BKP/BTR-000</span></p>
-                            </div>
-                        </div>
-
-                        <!-- HIGHLIGHT CONTAINER & TRACKING -->
-                        <div class="grid grid-cols-2 gap-4 mb-4 text-center font-black text-xs">
-                            <div class="bg-yellow-300 p-2 border border-black rounded shadow-sm uppercase">
-                                NO KONTAINER: <span id="excelContainerHighlight">-</span>
-                            </div>
-                            <div class="bg-emerald-300 p-2 border border-black rounded shadow-sm uppercase">
-                                TRACKING NO: <span id="excelTrackingHighlight">-</span>
-                            </div>
-                        </div>
-
-                        <!-- EXCEL GRID TABLE -->
-                        <table class="w-full border-collapse border-2 border-black text-center text-[9px] mb-4">
-                            <thead>
-                                <tr class="bg-gray-100 font-extrabold border-b-2 border-black">
-                                    <th class="border border-black p-1 w-6">NO</th>
-                                    <th class="border border-black p-1">Originator/User</th>
-                                    <th class="border border-black p-1">Tracking ID / SKU</th>
-                                    <th class="border border-black p-1">Cost Code / Center</th>
-                                    <th class="border border-black p-1 w-8">QTY ITEM</th>
-                                    <th class="border border-black p-1">COMP DESCRIPTION</th>
-                                    <th class="border border-black p-1 w-8">QTY PCKG</th>
-                                    <th class="border border-black p-1">Type Package [UOM]</th>
-                                    <th class="border border-black p-1">Length [CM]</th>
-                                    <th class="border border-black p-1">Width [CM]</th>
-                                    <th class="border border-black p-1">Height [CM]</th>
-                                    <th class="border border-black p-1">Total Volume [CM3]</th>
-                                    <th class="border border-black p-1">Total Weight [KG]</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="border-b border-black font-semibold h-40">
-                                    <td class="border border-black p-1">1</td>
-                                    <td id="excelUser" class="border border-black p-1">-</td>
-                                    <td id="excelTrackId" class="border border-black p-1 font-bold">-</td>
-                                    <td id="excelCost" class="border border-black p-1">-</td>
-                                    <td id="excelQtyItem" class="border border-black p-1">-</td>
-                                    <td id="excelItemDesc" class="border border-black p-1 text-left font-bold pl-2">-</td>
-                                    <td id="excelQtyPckg" class="border border-black p-1">-</td>
-                                    <td id="excelUOM" class="border border-black p-1">-</td>
-                                    <td id="excelLen" class="border border-black p-1">-</td>
-                                    <td id="excelWid" class="border border-black p-1">-</td>
-                                    <td id="excelHei" class="border border-black p-1">-</td>
-                                    <td id="excelVol" class="border border-black p-1 font-bold">-</td>
-                                    <td id="excelWt" class="border border-black p-1 font-bold">-</td>
-                                </tr>
-                                <tr class="bg-gray-50 font-extrabold border-t-2 border-black text-[9px]">
-                                    <td colspan="6" class="border border-black p-1 text-right pr-4 uppercase">TOTAL PACKAGE :</td>
-                                    <td id="excelTotalPkg" class="border border-black p-1">-</td>
-                                    <td colspan="4" class="border border-black p-1 text-right pr-4 uppercase">TOTAL VOLUME & WEIGHT :</td>
-                                    <td id="excelTotalVol" class="border border-black p-1">-</td>
-                                    <td id="excelTotalWt" class="border border-black p-1">-</td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <!-- FOTO, ALAMAT & REMARKS GRID -->
-                        <div class="grid grid-cols-3 gap-3 border border-black p-3 rounded mb-4 text-[9px] text-left">
-                            <div>
-                                <h4 class="font-extrabold border-b border-black pb-1 mb-2">📸 FOTO FISIK CARGO</h4>
-                                <div id="excelPhotoFrame" class="w-full h-32 border border-gray-300 rounded flex items-center justify-center overflow-hidden bg-gray-50">
-                                    <span class="text-gray-400 italic">Tidak ada foto</span>
+                    <!-- CONTAINER KERTAS PUTIH EXCEL PAPER VIEW (LANDSCAPE ASPECT RATIO) -->
+                    <div class="bg-white text-black p-6 rounded-xl border border-slate-300 shadow-2xl overflow-x-auto w-full">
+                        <div class="min-w-[1050px]">
+                            
+                            <!-- Header Form Merdeka dengan Grafis Logo Terintegrasi -->
+                            <div class="grid grid-cols-4 items-center border-b-2 border-black pb-2 mb-2 text-[10px]">
+                                <!-- Kolom Kiri: Logo Merdeka Copper Gold + BKP + BTR Bersanding Sempurna -->
+                                <div class="col-span-1 flex items-center space-x-2">
+                                    <!-- Merdeka SVG -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 45" class="h-10">
+                                        <path d="M 102,28 C 96,20 102,10 108,12 C 112,14 108,24 104,28 Z" fill="#9a3412"/>
+                                        <path d="M 112,32 C 106,24 112,14 118,16 C 122,18 118,28 114,32 Z" fill="#ca8a04"/>
+                                        <path d="M 122,36 C 116,28 122,18 128,20 C 132,22 128,32 124,36 Z" fill="#64748b"/>
+                                        <text x="5" y="24" font-family="'Plus Jakarta Sans', sans-serif" font-size="11" font-weight="900" fill="#1e293b">MERDEKA</text>
+                                        <text x="5" y="34" font-family="'Plus Jakarta Sans', sans-serif" font-size="6" font-weight="700" fill="#64748b" letter-spacing="1">COPPER GOLD</text>
+                                    </svg>
+                                    
+                                    <!-- BKP SVG (Overlapping green triangles) -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 65" class="h-10">
+                                        <polygon points="30,10 10,45 50,45" fill="#143c34" opacity="0.85"/>
+                                        <polygon points="45,3 25,45 65,45" fill="#0c6b54" opacity="0.85"/>
+                                        <polygon points="60,10 40,45 80,45" fill="#2eb086" opacity="0.85"/>
+                                        <text x="45" y="54" font-family="Arial, sans-serif" font-size="5" font-weight="900" fill="#1e293b" text-anchor="middle">PT. BATUTUA</text>
+                                        <text x="45" y="60" font-family="Arial, sans-serif" font-size="5" font-weight="900" fill="#1e293b" text-anchor="middle">KHARISMA PERMAI</text>
+                                    </svg>
+                                    
+                                    <!-- BTR SVG (Diagonal striped triangles) -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 65" class="h-10">
+                                        <polygon points="50,3 20,45 38,45 50,3" fill="#f97316"/>
+                                        <polygon points="50,3 38,45 58,45 50,3" fill="#dc2626"/>
+                                        <polygon points="50,3 58,45 80,45 50,3" fill="#991b1b"/>
+                                        <text x="50" y="54" font-family="Arial, sans-serif" font-size="5" font-weight="900" fill="#1e293b" text-anchor="middle">PT. BATUTUA</text>
+                                        <text x="50" y="60" font-family="Arial, sans-serif" font-size="5" font-weight="900" fill="#1e293b" text-anchor="middle">TEMBAGA RAYA</text>
+                                    </svg>
                                 </div>
-                            </div>
-                            <div>
-                                <h4 class="font-extrabold border-b border-black pb-1 mb-2">🏡 DETAILS DELIVERY ADDRESS / DELIVER TO</h4>
-                                <p id="excelAddressCell" class="font-bold leading-relaxed text-gray-800">-</p>
-                            </div>
-                            <div>
-                                <h4 class="font-extrabold border-b border-black pb-1 mb-2">📞 PIC & REMARKS</h4>
-                                <p class="font-bold">PIC Kontak:</p>
-                                <p id="excelPhoneCell" class="mb-2">-</p>
-                                <p class="font-bold">Remarks Tambahan:</p>
-                                <p id="excelRemarksCell" class="italic text-gray-700">-</p>
-                            </div>
-                        </div>
-
-                        <div class="border-2 border-black rounded overflow-hidden text-[9px]">
-                            <div class="bg-black text-white text-center py-1 font-extrabold uppercase tracking-wide">
-                                Hand Over Detail & Approval Box
-                            </div>
-                            <div class="grid grid-cols-4 text-center border-t border-black divide-x divide-black h-24 bg-white">
-                                <!-- Originator Sign -->
-                                <div class="p-2 flex flex-col justify-between items-center h-full">
-                                    <p class="font-bold uppercase text-[7px]">Prepared / Submitted By</p>
-                                    <div class="h-8"></div> <!-- Kosong tanpa grafis coretan -->
-                                    <div class="text-[7px] text-left w-full border-t border-gray-300 pt-0.5">
-                                        <p>Name: <span id="excelSignUserName" class="font-bold">-</span></p>
-                                        <p>Dept: <span id="excelSignUserDept">-</span></p>
-                                    </div>
+                                <!-- Kolom Tengah: Deskripsi Outbound -->
+                                <div class="col-span-2 text-center">
+                                    <h2 class="font-black text-[11px] tracking-wide">OUTBOUND FORM MATERIAL REQUEST FROM BKP/BTR WETAR SITE</h2>
+                                    <p class="text-[8px] font-black text-gray-700">DELIVER TO VENDOR, CONTRACTOR DOMESTIC AND INTERNATIONAL</p>
                                 </div>
-
-                                <!-- Manager Sign -->
-                                <div class="p-2 flex flex-col justify-between items-center h-full">
-                                    <p class="font-bold uppercase text-[7px]">Manager Dept Approval</p>
-                                    <div class="h-8"></div> <!-- Kosong tanpa grafis coretan -->
-                                    <div class="text-[7px] text-left w-full border-t border-gray-300 pt-0.5">
-                                        <p>Name: <span id="excelSignMgrName" class="font-bold">-</span></p>
-                                        <p>Dept: <span id="excelSignMgrDept">-</span></p>
-                                    </div>
-                                </div>
-
-                                <!-- Warehouse Sign -->
-                                <div class="p-2 flex flex-col justify-between items-center h-full">
-                                    <p class="font-bold uppercase text-[7px]">Received by Warehouse/Logistic</p>
-                                    <div class="h-8"></div> <!-- Kosong tanpa grafis coretan -->
-                                    <div class="text-[7px] text-left w-full border-t border-gray-300 pt-0.5">
-                                        <p>Name: <span id="excelSignLogName" class="font-bold">-</span></p>
-                                        <p>Dept: Logistics</p>
-                                    </div>
-                                </div>
-
-                                <!-- Destination Sign -->
-                                <div class="p-2 flex flex-col justify-between items-center h-full">
-                                    <p class="font-bold uppercase text-[7px]">Received at Destination by</p>
-                                    <div class="h-8"></div> <!-- Kosong tanpa grafis coretan -->
-                                    <div class="text-[7px] text-left w-full border-t border-gray-300 pt-0.5">
-                                        <p>Name: ________________</p>
-                                        <p>Dept: Vendor / Site</p>
+                                <!-- Kolom Kanan: Detail Manifes & Registrasi -->
+                                <div class="col-span-1 flex flex-col items-end justify-center">
+                                    <div class="text-right text-[8px] font-bold leading-tight">
+                                        <p>Date: <span id="excelPrintDate" class="font-bold">-</span></p>
+                                        <p>REF# MR REGISTER NUMBER: <span id="excelPrintRef" class="underline">LOG-BKP/BTR-000</span></p>
+                                        <p class="text-[6.5px] text-gray-500 font-normal italic">(Filled by Logistic Dept / Diisi oleh Dept. Logistik)</p>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- REASON FOR OUTBOUND CHECKBOXES -->
-                        <div class="mt-4 border border-black p-2 rounded bg-gray-50 grid grid-cols-5 text-[8px] font-bold text-left">
-                            <div class="flex items-center space-x-1">
-                                <input type="checkbox" id="exCheckRepair" disabled> <label for="exCheckRepair">REPAIR</label>
+                            <!-- HIGHLIGHT CONTAINER & TRACKING LANSKAP (BOXES STACKED AT THE RIGHT HEADER AREA) -->
+                            <div class="grid grid-cols-12 gap-3 mb-2 font-black text-xs text-center">
+                                <div class="col-span-6"></div>
+                                <div class="col-span-3 bg-yellow-300 py-1.5 px-3 border border-black rounded shadow-sm">
+                                    <span id="excelContainerHighlight">-</span>
+                                </div>
+                                <div class="col-span-3 bg-emerald-300 py-1.5 px-3 border border-black rounded shadow-sm">
+                                    <span id="excelTrackingHighlight">-</span>
+                                </div>
                             </div>
-                            <div class="flex items-center space-x-1">
-                                <input type="checkbox" id="exCheckCalibration" disabled> <label for="exCheckCalibration">CALIBRATION</label>
-                            </div>
-                            <div class="flex items-center space-x-1">
-                                <input type="checkbox" id="exCheckReturn" disabled> <label for="exCheckReturn">RETURN</label>
-                            </div>
-                            <div class="flex items-center space-x-1">
-                                <input type="checkbox" id="exCheckScrap" disabled> <label for="exCheckScrap">SCRAP</label>
-                            </div>
-                            <div class="flex items-center space-x-1">
-                                <input type="checkbox" id="exCheckOther" disabled> <label for="exCheckOther">OTHER / LAIN-LAIN</label>
-                            </div>
-                        </div>
 
+                            <!-- EXCEL LANSKAP GRID TABLE (17 KOLOM SECARA HORIZONTAL) -->
+                            <table class="w-full border-collapse border-2 border-black text-center text-[8px] mb-2 table-fixed">
+                                <thead>
+                                    <tr class="bg-gray-100 font-extrabold border-b-2 border-black leading-tight">
+                                        <th class="border border-black p-1 w-[2.5%]">NO</th>
+                                        <th class="border border-black p-1 w-[8%]">Originator/User</th>
+                                        <th class="border border-black p-1 w-[9%]">Tracking ID / SKU</th>
+                                        <th class="border border-black p-1 w-[8%]">Cost Code / Center</th>
+                                        <th class="border border-black p-1 w-[4%]">QTY ITEM</th>
+                                        <th class="border border-black p-1 w-[22%]">COMP DESCRIPTION</th>
+                                        <th class="border border-black p-1 w-[4%]">QTY PCKG</th>
+                                        <th class="border border-black p-1 w-[5%]">Type Package [UOM]</th>
+                                        <th class="border border-black p-1 w-[4%]">Length [CM]</th>
+                                        <th class="border border-black p-1 w-[4%]">Width [CM]</th>
+                                        <th class="border border-black p-1 w-[4%]">Height [CM]</th>
+                                        <th class="border border-black p-1 w-[5%]">Total Volume [CM3]</th>
+                                        <th class="border border-black p-1 w-[5%]">Total Weight [KG]</th>
+                                        <th class="border border-black p-1 w-[6%]">Reason for Outbound</th>
+                                        <th class="border border-black p-1 w-[12%]">Details Delivery Address / Deliver To: [Vendor/Supplier]</th>
+                                        <th class="border border-black p-1 w-[8%]">No Telp/Handphone or Whatsapp</th>
+                                        <th class="border border-black p-1 w-[8%]">Remarks or additional requirement for pick up</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b border-black font-semibold min-h-[140px]">
+                                        <td class="border border-black p-1 valign-top">1</td>
+                                        <td id="excelUser" class="border border-black p-1 valign-top truncate">-</td>
+                                        <td id="excelTrackId" class="border border-black p-1 valign-top font-bold text-center">-</td>
+                                        <td id="excelCost" class="border border-black p-1 valign-top text-center">-</td>
+                                        <td id="excelQtyItem" class="border border-black p-1 valign-top text-center font-bold">-</td>
+                                        <td class="border border-black p-1 text-left valign-top space-y-1.5">
+                                            <div id="excelItemDesc" class="font-bold text-[9px] mb-1.5">-</div>
+                                            <!-- CONTAINER FOTO DI DALAM SEL COMP DESCRIPTION -->
+                                            <div id="excelPhotoFrame" class="w-full max-w-[200px] h-24 mx-auto border border-gray-300 rounded flex items-center justify-center overflow-hidden bg-gray-50">
+                                                <span class="text-gray-400 italic text-[7px]">Tidak ada foto</span>
+                                            </div>
+                                        </td>
+                                        <td id="excelQtyPckg" class="border border-black p-1 valign-top text-center font-bold">-</td>
+                                        <td id="excelUOM" class="border border-black p-1 valign-top text-center">-</td>
+                                        <td id="excelLen" class="border border-black p-1 valign-top text-center">-</td>
+                                        <td id="excelWid" class="border border-black p-1 valign-top text-center">-</td>
+                                        <td id="excelHei" class="border border-black p-1 valign-top text-center">-</td>
+                                        <td id="excelVol" class="border border-black p-1 valign-top font-bold text-center">-</td>
+                                        <td id="excelWt" class="border border-black p-1 valign-top font-bold text-center">-</td>
+                                        <td id="excelReasonCell" class="border border-black p-1 valign-top font-bold text-center text-red-600 uppercase">-</td>
+                                        <td id="excelAddressCell" class="border border-black p-1 text-left valign-top leading-normal text-gray-800 text-[7.5px]">-</td>
+                                        <td id="excelPhoneCell" class="border border-black p-1 valign-top text-center">-</td>
+                                        <td id="excelRemarksCell" class="border border-black p-1 text-left valign-top italic text-gray-700 text-[7.5px]">-</td>
+                                    </tr>
+                                    <!-- TOTAL BARIS DI TABLE FOOTER -->
+                                    <tr class="bg-gray-50 font-extrabold border-t-2 border-black text-[8px]">
+                                        <td colspan="4" class="border border-black p-1 text-right pr-2 uppercase">TOTAL PACKAGE :</td>
+                                        <td id="excelTotalPkgItem" class="border border-black p-1 text-center font-black">-</td>
+                                        <td class="border border-black p-1"></td>
+                                        <td id="excelTotalPkg" class="border border-black p-1 text-center font-black">-</td>
+                                        <td colspan="4" class="border border-black p-1 text-right pr-2 uppercase">TOTAL VOLUME & WEIGHT :</td>
+                                        <td id="excelTotalVol" class="border border-black p-1 text-center font-black">-</td>
+                                        <td id="excelTotalWt" class="border border-black p-1 text-center font-black">-</td>
+                                        <td colspan="4" class="border border-black p-1"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <!-- PERINGATAN LOGISTIK DI BAWAH TABEL -->
+                            <p class="text-[7.5px] italic text-left font-black tracking-wide text-red-600 mb-2 leading-none">
+                                *The approved form and materials should be submitted at least 24 hours before PM/LCT departure time
+                            </p>
+
+                            <!-- HAND OVER DETAIL & APPROVAL BOX (DENGAN CHECKBOX NOTE ALASAN OUTBOUND DI KIRI) -->
+                            <div class="border-2 border-black rounded overflow-hidden text-[8px] mt-1 bg-white">
+                                <div class="bg-black text-white text-center py-0.5 font-extrabold uppercase tracking-wider text-[8px]">
+                                    HAND OVER DETAIL & APPROVAL BOX
+                                </div>
+                                <div class="grid grid-cols-12 divide-x divide-black h-24">
+                                    
+                                    <!-- Bagian Kiri: Checklist Alasan Outbound (Note Reason) -->
+                                    <div class="col-span-3 p-1.5 flex flex-col justify-between text-[7px] font-black text-left bg-gray-50 leading-tight">
+                                        <p class="border-b border-gray-300 pb-0.5 text-[7px] uppercase">NOTE: REASON FOR OUTBOUND:</p>
+                                        <div class="grid grid-cols-2 gap-x-1 gap-y-0.5 mt-1 flex-1">
+                                            <div class="flex items-center space-x-1"><input type="checkbox" id="exCheckRepair" disabled> <span>REPAIR</span></div>
+                                            <div class="flex items-center space-x-1"><input type="checkbox" id="exCheckCalibration" disabled> <span>CALIBRATION</span></div>
+                                            <div class="flex items-center space-x-1"><input type="checkbox" id="exCheckReturn" disabled> <span>RETURN</span></div>
+                                            <div class="flex items-center space-x-1"><input type="checkbox" id="exCheckScrap" disabled> <span>SCRAP</span></div>
+                                            <div class="flex items-center space-x-1 col-span-2"><input type="checkbox" id="exCheckOther" disabled> <span>OTHER / LAIN-LAIN</span></div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Bagian 2: Prepared By (Requestor Approval) -->
+                                    <div class="col-span-2.25 p-1.5 flex flex-col justify-between items-center h-full">
+                                        <p class="font-bold uppercase text-[6.5px] text-gray-500 text-center leading-none">Prepared / Submitted By:<br><span class="text-[5.5px] font-normal italic">(Requestor Approval)</span></p>
+                                        <div class="h-10"></div> <!-- BOX KOSONG TOTAL TANPA TANDA TANGAN (BERSIH) -->
+                                        <div class="text-[6.5px] text-left w-full border-t border-gray-300 pt-0.5 leading-snug">
+                                            <p>Signature: ________________</p>
+                                            <p>Name: <span id="excelSignUserName" class="font-bold">-</span></p>
+                                            <p>Dept: <span id="excelSignUserDept">-</span></p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Bagian 3: Manager Approval -->
+                                    <div class="col-span-2.25 p-1.5 flex flex-col justify-between items-center h-full">
+                                        <p class="font-bold uppercase text-[6.5px] text-gray-500 text-center leading-none">Manager Dept Approval</p>
+                                        <div class="h-10"></div> <!-- BOX KOSONG TOTAL TANPA TANDA TANGAN (BERSIH) -->
+                                        <div class="text-[6.5px] text-left w-full border-t border-gray-300 pt-0.5 leading-snug">
+                                            <p>Signature: ________________</p>
+                                            <p>Name: <span id="excelSignMgrName" class="font-bold">-</span></p>
+                                            <p>Dept: <span id="excelSignMgrDept">-</span></p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Bagian 4: Received by Logistics -->
+                                    <div class="col-span-2.25 p-1.5 flex flex-col justify-between items-center h-full">
+                                        <p class="font-bold uppercase text-[6.5px] text-gray-500 text-center leading-none">Received by Warehouse/Logistic</p>
+                                        <div class="h-10"></div> <!-- BOX KOSONG TOTAL TANPA TANDA TANGAN (BERSIH) -->
+                                        <div class="text-[6.5px] text-left w-full border-t border-gray-300 pt-0.5 leading-snug">
+                                            <p>Signature: ________________</p>
+                                            <p>Name: <span id="excelSignLogName" class="font-bold">-</span></p>
+                                            <p>Dept: Logistics & Warehouse</p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Bagian 5: Destination Sign -->
+                                    <div class="col-span-2.25 p-1.5 flex flex-col justify-between items-center h-full">
+                                        <p class="font-bold uppercase text-[6.5px] text-gray-500 text-center leading-none">Received at Destination by</p>
+                                        <div class="h-10"></div> <!-- BOX KOSONG TOTAL TANPA TANGAN (BERSIH) -->
+                                        <div class="text-[6.5px] text-left w-full border-t border-gray-300 pt-0.5 leading-snug">
+                                            <p>Signature: ________________</p>
+                                            <p>Name: ________________</p>
+                                            <p>Dept: Vendor / Site</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
 
@@ -715,157 +759,198 @@
         </div>
     </main>
 
-    <!-- AREA CETAK PRINT AREA CONTAINER (ONLY VISIBLE ON PRINT) -->
-    <div id="printAreaContainer" class="hidden w-[210mm] min-h-[297mm] p-6 bg-white text-black text-[10px] leading-snug mx-auto border border-gray-300">
-        <div class="grid grid-cols-4 items-center border-b-2 border-black pb-4 mb-3">
-            <div class="col-span-1 flex space-x-1 items-center">
-                <span class="font-extrabold text-2xl tracking-tight text-yellow-600">MERDEKA</span>
-                <span class="text-[8px] leading-tight font-bold text-gray-500">COPPER GOLD</span>
+    <!-- AREA CETAK PRINT AREA CONTAINER (ONLY VISIBLE ON PRINT - LANDSCAPE A4) -->
+    <div id="printAreaContainer" class="hidden w-[297mm] min-h-[210mm] p-4 bg-white text-black text-[9px] leading-snug mx-auto border border-gray-300">
+        
+        <!-- Header Cetak Terintegrasi Logo SVGs -->
+        <div class="grid grid-cols-4 items-center border-b-2 border-black pb-2 mb-2">
+            <div class="col-span-1 flex items-center space-x-2">
+                <!-- Merdeka SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 45" class="h-9">
+                    <path d="M 102,28 C 96,20 102,10 108,12 C 112,14 108,24 104,28 Z" fill="#9a3412"/>
+                    <path d="M 112,32 C 106,24 112,14 118,16 C 122,18 118,28 114,32 Z" fill="#ca8a04"/>
+                    <path d="M 122,36 C 116,28 122,18 128,20 C 132,22 128,32 124,36 Z" fill="#64748b"/>
+                    <text x="5" y="24" font-family="'Plus Jakarta Sans', sans-serif" font-size="11" font-weight="900" fill="#1e293b">MERDEKA</text>
+                    <text x="5" y="34" font-family="'Plus Jakarta Sans', sans-serif" font-size="6" font-weight="700" fill="#64748b" letter-spacing="1">COPPER GOLD</text>
+                </svg>
+                
+                <!-- BKP SVG (Overlapping green triangles) -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 65" class="h-9">
+                    <polygon points="30,10 10,45 50,45" fill="#143c34" opacity="0.85"/>
+                    <polygon points="45,3 25,45 65,45" fill="#0c6b54" opacity="0.85"/>
+                    <polygon points="60,10 40,45 80,45" fill="#2eb086" opacity="0.85"/>
+                    <text x="45" y="54" font-family="Arial, sans-serif" font-size="5" font-weight="900" fill="#1e293b" text-anchor="middle">PT. BATUTUA</text>
+                    <text x="45" y="60" font-family="Arial, sans-serif" font-size="5" font-weight="900" fill="#1e293b" text-anchor="middle">KHARISMA PERMAI</text>
+                </svg>
+                
+                <!-- BTR SVG (Diagonal striped triangles) -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 65" class="h-9">
+                    <polygon points="50,3 20,45 38,45 50,3" fill="#f97316"/>
+                    <polygon points="50,3 38,45 58,45 50,3" fill="#dc2626"/>
+                    <polygon points="50,3 58,45 80,45 50,3" fill="#991b1b"/>
+                    <text x="50" y="54" font-family="Arial, sans-serif" font-size="5" font-weight="900" fill="#1e293b" text-anchor="middle">PT. BATUTUA</text>
+                    <text x="50" y="60" font-family="Arial, sans-serif" font-size="5" font-weight="900" fill="#1e293b" text-anchor="middle">TEMBAGA RAYA</text>
+                </svg>
             </div>
             <div class="col-span-2 text-center">
-                <h2 class="font-extrabold text-xs tracking-wide">OUTBOUND FORM MATERIAL REQUEST FROM BKP/BTR WETAR SITE</h2>
-                <p class="text-[9px] font-bold text-gray-700">DELIVER TO VENDOR, CONTRACTOR DOMESTIC AND INTERNATIONAL</p>
+                <h2 class="font-extrabold text-[11px] tracking-wide">OUTBOUND FORM MATERIAL REQUEST FROM BKP/BTR WETAR SITE</h2>
+                <p class="text-[8px] font-bold text-gray-700">DELIVER TO VENDOR, CONTRACTOR DOMESTIC AND INTERNATIONAL</p>
             </div>
-            <div class="col-span-1 text-right text-[8px] font-bold">
-                <p>Date: <span id="printDateStr">-</span></p>
-                <p>REF NR REGISTER NUMBER: <span id="printRegisterNum" class="underline">LOG-BKP/BTR-000</span></p>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-4 mb-4">
-            <div class="bg-yellow-300 p-2 text-center font-extrabold text-sm border border-black rounded shadow-sm">
-                NO KONTAINER: <span id="printContainerSorotan">-</span>
-            </div>
-            <div class="bg-emerald-300 p-2 text-center font-extrabold text-sm border border-black rounded shadow-sm">
-                TRACKING NO: <span id="printTrackingSorotan">-</span>
+            <div class="col-span-1 flex flex-col items-end justify-center">
+                <div class="text-right text-[8px] font-bold leading-tight">
+                    <p>Date: <span id="printDateStr" class="font-bold">-</span></p>
+                    <p>REF# MR REGISTER NUMBER: <span id="printRegisterNum" class="underline">LOG-BKP/BTR-000</span></p>
+                    <p class="text-[6.5px] text-gray-400 font-normal italic">(Filled by Logistic Dept / Diisi oleh Dept. Logistik)</p>
+                </div>
             </div>
         </div>
 
-        <table class="w-full border-collapse border-2 border-black text-center mb-4">
+        <!-- HIGHLIGHT BOXES AT UPPER RIGHT -->
+        <div class="grid grid-cols-12 gap-3 mb-2 font-black text-xs text-center">
+            <div class="col-span-6"></div>
+            <div class="col-span-3 bg-yellow-300 py-1.5 px-3 border border-black rounded shadow-sm">
+                <span id="printContainerSorotan">-</span>
+            </div>
+            <div class="col-span-3 bg-emerald-300 py-1.5 px-3 border border-black rounded shadow-sm">
+                <span id="printTrackingSorotan">-</span>
+            </div>
+        </div>
+
+        <!-- TABEL UTAMA PDF LANDSCAPE (17 KOLOM) -->
+        <table class="w-full border-collapse border-2 border-black text-center mb-2 table-fixed text-[8px]">
             <thead>
-                <tr class="bg-gray-100 font-extrabold border-b-2 border-black text-[9px]">
-                    <th class="border border-black p-1 w-8">NO</th>
-                    <th class="border border-black p-1">Originator/User</th>
-                    <th class="border border-black p-1">Tracking ID / SKU</th>
-                    <th class="border border-black p-1">Cost Code / Center</th>
-                    <th class="border border-black p-1 w-10">QTY ITEM</th>
-                    <th class="border border-black p-1">COMP DESCRIPTION</th>
-                    <th class="border border-black p-1 w-10">QTY PCKG</th>
-                    <th class="border border-black p-1">Type Package [UOM]</th>
-                    <th class="border border-black p-1">Length [CM]</th>
-                    <th class="border border-black p-1">Width [CM]</th>
-                    <th class="border border-black p-1">Height [CM]</th>
-                    <th class="border border-black p-1">Total Volume [CM3]</th>
-                    <th class="border border-black p-1">Total Weight [KG]</th>
+                <tr class="bg-gray-100 font-extrabold border-b-2 border-black leading-tight">
+                    <th class="border border-black p-1 w-[2.5%]">NO</th>
+                    <th class="border border-black p-1 w-[8%]">Originator/User</th>
+                    <th class="border border-black p-1 w-[9%]">Tracking ID / SKU</th>
+                    <th class="border border-black p-1 w-[8%]">Cost Code / Center</th>
+                    <th class="border border-black p-1 w-[4%]">QTY ITEM</th>
+                    <th class="border border-black p-1 w-[22%]">COMP DESCRIPTION</th>
+                    <th class="border border-black p-1 w-[4%]">QTY PCKG</th>
+                    <th class="border border-black p-1 w-[5%]">Type Package [UOM]</th>
+                    <th class="border border-black p-1 w-[4%]">Length [CM]</th>
+                    <th class="border border-black p-1 w-[4%]">Width [CM]</th>
+                    <th class="border border-black p-1 w-[4%]">Height [CM]</th>
+                    <th class="border border-black p-1 w-[5%]">Total Volume [CM3]</th>
+                    <th class="border border-black p-1 w-[5%]">Total Weight [KG]</th>
+                    <th class="border border-black p-1 w-[6%]">Reason for Outbound</th>
+                    <th class="border border-black p-1 w-[12%]">Details Delivery Address / Deliver To: [Vendor/Supplier]</th>
+                    <th class="border border-black p-1 w-[8%]">No Telp/Handphone or Whatsapp</th>
+                    <th class="border border-black p-1 w-[8%]">Remarks or additional requirement for pick up</th>
                 </tr>
             </thead>
             <tbody>
-                <tr class="border-b border-black font-semibold h-48">
-                    <td class="border border-black p-1">1</td>
-                    <td id="printUser" class="border border-black p-1">-</td>
-                    <td id="printTrack" class="border border-black p-1 font-mono-custom font-bold">-</td>
-                    <td id="printCostCode" class="border border-black p-1">-</td>
-                    <td id="printQtyItem" class="border border-black p-1">-</td>
-                    <td id="printDescItem" class="border border-black p-1 text-left font-bold pl-2">-</td>
-                    <td id="printQtyPckg" class="border border-black p-1">-</td>
-                    <td id="printTypePackage" class="border border-black p-1">-</td>
-                    <td id="printLen" class="border border-black p-1">-</td>
-                    <td id="printWid" class="border border-black p-1">-</td>
-                    <td id="printHei" class="border border-black p-1">-</td>
-                    <td id="printVolumeTotal" class="border border-black p-1 font-bold">-</td>
-                    <td id="printWeightTotal" class="border border-black p-1 font-bold">-</td>
+                <tr class="border-b border-black font-semibold min-h-[140px]">
+                    <td class="border border-black p-1 valign-top">1</td>
+                    <td id="printUser" class="border border-black p-1 valign-top truncate">-</td>
+                    <td id="printTrack" class="border border-black p-1 valign-top font-bold text-center">-</td>
+                    <td id="printCostCode" class="border border-black p-1 valign-top text-center">-</td>
+                    <td id="printQtyItem" class="border border-black p-1 valign-top text-center font-bold">-</td>
+                    <td class="border border-black p-1 text-left valign-top space-y-1.5">
+                        <div id="printDescItem" class="font-bold text-[9px] mb-1.5">-</div>
+                        <!-- CONTAINER FOTO DI DALAM SEL COMP DESCRIPTION -->
+                        <div id="printPhotoCell" class="w-full max-w-[200px] h-24 mx-auto border border-gray-300 rounded flex items-center justify-center overflow-hidden bg-gray-50"></div>
+                    </td>
+                    <td id="printQtyPckg" class="border border-black p-1 valign-top text-center font-bold">-</td>
+                    <td id="printTypePackage" class="border border-black p-1 valign-top text-center">-</td>
+                    <td id="printLen" class="border border-black p-1 valign-top text-center">-</td>
+                    <td id="printWid" class="border border-black p-1 valign-top text-center">-</td>
+                    <td id="printHei" class="border border-black p-1 valign-top text-center">-</td>
+                    <td id="printVolumeTotal" class="border border-black p-1 valign-top font-bold text-center">-</td>
+                    <td id="printWeightTotal" class="border border-black p-1 valign-top font-bold text-center">-</td>
+                    <td id="printReasonCell" class="border border-black p-1 valign-top font-bold text-center text-red-600 uppercase">-</td>
+                    <td id="printAddressCell" class="border border-black p-1 text-left valign-top leading-normal text-gray-800 text-[7.5px]">-</td>
+                    <td id="printPhoneCell" class="border border-black p-1 valign-top text-center">-</td>
+                    <td id="printRemarksCell" class="border border-black p-1 text-left valign-top italic text-gray-700 text-[7.5px]">-</td>
                 </tr>
-                <tr class="bg-gray-50 font-extrabold border-t-2 border-black text-[9px]">
-                    <td colspan="6" class="border border-black p-1 text-right pr-4 uppercase">TOTAL PACKAGE :</td>
-                    <td id="printTotalPackageSum" class="border border-black p-1">1</td>
-                    <td colspan="4" class="border border-black p-1 text-right pr-4 uppercase">TOTAL VOLUME & WEIGHT :</td>
-                    <td id="printVolumeSum" class="border border-black p-1">-</td>
-                    <td id="printWeightSum" class="border border-black p-1">-</td>
+                <!-- TOTAL BARIS DI TABLE FOOTER -->
+                <tr class="bg-gray-50 font-extrabold border-t-2 border-black text-[8px]">
+                    <td colspan="4" class="border border-black p-1 text-right pr-2 uppercase">TOTAL PACKAGE :</td>
+                    <td id="printTotalPkgItem" class="border border-black p-1 text-center font-black">-</td>
+                    <td class="border border-black p-1"></td>
+                    <td id="printTotalPackageSum" class="border border-black p-1 text-center font-black">-</td>
+                    <td colspan="4" class="border border-black p-1 text-right pr-2 uppercase">TOTAL VOLUME & WEIGHT :</td>
+                    <td id="printVolumeSum" class="border border-black p-1 text-center font-black">-</td>
+                    <td id="printWeightSum" class="border border-black p-1 text-center font-black">-</td>
+                    <td colspan="4" class="border border-black p-1"></td>
                 </tr>
             </tbody>
         </table>
 
-        <div class="grid grid-cols-3 gap-3 border border-black p-3 rounded mb-4">
-            <div class="col-span-1">
-                <h4 class="font-extrabold border-b border-black pb-1 mb-2 text-[9px]">📸 FOTO FISIK CARGO</h4>
-                <div id="printPhotoCell" class="w-full h-36 border border-gray-300 rounded flex items-center justify-center overflow-hidden bg-gray-50"></div>
-            </div>
-            <div class="col-span-1">
-                <h4 class="font-extrabold border-b border-black pb-1 mb-2 text-[9px]">🏡 DETAILS DELIVERY ADDRESS / DELIVER TO</h4>
-                <p id="printAddressCell" class="text-[9px] leading-relaxed font-semibold">-</p>
-            </div>
-            <div class="col-span-1">
-                <h4 class="font-extrabold border-b border-black pb-1 mb-2 text-[9px]">📞 PIC & REMARKS</h4>
-                <p class="font-bold">PIC Kontak:</p>
-                <p id="printPhoneCell" class="mb-2">-</p>
-                <p class="font-bold">Remarks Tambahan:</p>
-                <p id="printRemarksCell" class="italic">-</p>
-            </div>
-        </div>
+        <!-- PERINGATAN LOGISTIK DI BAWAH TABEL -->
+        <p class="text-[7.5px] italic text-left font-black tracking-wide text-red-600 mb-2 leading-none">
+            *The approved form and materials should be submitted at least 24 hours before PM/LCT departure time
+        </p>
 
-        <!-- Approval Box Blank Area for Hand-Sign -->
-        <div class="border-2 border-black rounded overflow-hidden">
-            <div class="bg-black text-white text-center py-1 font-extrabold text-[9px] uppercase tracking-wide">
-                Hand Over Detail & Approval Box
+        <!-- APPROVAL BOX UNTUK CETAKAN LANDSCAPE -->
+        <div class="border-2 border-black rounded overflow-hidden text-[8px] bg-white">
+            <div class="bg-black text-white text-center py-0.5 font-extrabold uppercase tracking-wider text-[8px]">
+                HAND OVER DETAIL & APPROVAL BOX
             </div>
-            <div class="grid grid-cols-4 text-center border-t border-black divide-x divide-black h-24">
-                <div class="p-2 flex flex-col justify-between items-center">
-                    <p class="font-bold text-[8px] uppercase">Prepared / Submitted By</p>
-                    <div class="h-8"></div>
-                    <div class="text-[8px] text-left w-full border-t border-gray-300 pt-1">
+            <div class="grid grid-cols-12 divide-x divide-black h-24">
+                
+                <!-- Bagian Kiri: Checklist Alasan Outbound (Note Reason) -->
+                <div class="col-span-3 p-1.5 flex flex-col justify-between text-[7px] font-black text-left bg-gray-50 leading-tight">
+                    <p class="border-b border-gray-300 pb-0.5 text-[7px] uppercase">NOTE: REASON FOR OUTBOUND:</p>
+                    <div class="grid grid-cols-2 gap-x-1 gap-y-0.5 mt-1 flex-1">
+                        <div class="flex items-center space-x-1"><input type="checkbox" id="checkRepair" disabled> <span>REPAIR</span></div>
+                        <div class="flex items-center space-x-1"><input type="checkbox" id="checkCalibration" disabled> <span>CALIBRATION</span></div>
+                        <div class="flex items-center space-x-1"><input type="checkbox" id="checkReturn" disabled> <span>RETURN</span></div>
+                        <div class="flex items-center space-x-1"><input type="checkbox" id="checkScrap" disabled> <span>SCRAP</span></div>
+                        <div class="flex items-center space-x-1 col-span-2"><input type="checkbox" id="checkOther" disabled> <span>OTHER / LAIN-LAIN</span></div>
+                    </div>
+                </div>
+
+                <!-- Bagian 2: Prepared By (Requestor Approval) -->
+                <div class="col-span-2.25 p-1.5 flex flex-col justify-between items-center h-full">
+                    <p class="font-bold uppercase text-[6.5px] text-gray-500 text-center leading-none">Prepared / Submitted By:<br><span class="text-[5.5px] font-normal italic">(Requestor Approval)</span></p>
+                    <div class="h-10"></div> <!-- BOX KOSONG TOTAL TANPA TANDA TANGAN (BERSIH) -->
+                    <div class="text-[6.5px] text-left w-full border-t border-gray-300 pt-0.5 leading-snug">
+                        <p>Signature: ________________</p>
                         <p>Name: <span id="signOriginatorName" class="font-bold">-</span></p>
                         <p>Dept: <span id="signOriginatorDept">-</span></p>
                     </div>
                 </div>
 
-                <div class="p-2 flex flex-col justify-between items-center">
-                    <p class="font-bold text-[8px] uppercase">Manager Dept Approval</p>
-                    <div class="h-8"></div>
-                    <div class="text-[8px] text-left w-full border-t border-gray-300 pt-1">
+                <!-- Bagian 3: Manager Approval -->
+                <div class="col-span-2.25 p-1.5 flex flex-col justify-between items-center h-full">
+                    <p class="font-bold uppercase text-[6.5px] text-gray-500 text-center leading-none">Manager Dept Approval</p>
+                    <div class="h-10"></div> <!-- BOX KOSONG TOTAL TANPA TANDA TANGAN (BERSIH) -->
+                    <div class="text-[6.5px] text-left w-full border-t border-gray-300 pt-0.5 leading-snug">
+                        <p>Signature: ________________</p>
                         <p>Name: <span id="signManagerName" class="font-bold">-</span></p>
                         <p>Dept: <span id="signManagerDept">-</span></p>
                     </div>
                 </div>
 
-                <div class="p-2 flex flex-col justify-between items-center">
-                    <p class="font-bold text-[8px] uppercase">Received by Warehouse/Logistic</p>
-                    <div class="h-8"></div>
-                    <div class="text-[8px] text-left w-full border-t border-gray-300 pt-1">
+                <!-- Bagian 4: Received by Logistics -->
+                <div class="col-span-2.25 p-1.5 flex flex-col justify-between items-center h-full">
+                    <p class="font-bold uppercase text-[6.5px] text-gray-500 text-center leading-none">Received by Warehouse/Logistic</p>
+                    <div class="h-10"></div> <!-- BOX KOSONG TOTAL TANPA TANDA TANGAN (BERSIH) -->
+                    <div class="text-[6.5px] text-left w-full border-t border-gray-300 pt-0.5 leading-snug">
+                        <p>Signature: ________________</p>
                         <p>Name: <span id="signLogName" class="font-bold">-</span></p>
-                        <p>Dept: Logistics</p>
+                        <p>Dept: Logistics & Warehouse</p>
                     </div>
                 </div>
 
-                <div class="p-2 flex flex-col justify-between items-center">
-                    <p class="font-bold text-[8px] uppercase">Received at Destination by</p>
-                    <div class="h-8"></div>
-                    <div class="text-[8px] text-left w-full border-t border-gray-300 pt-1">
+                <!-- Bagian 5: Destination Sign -->
+                <div class="col-span-2.25 p-1.5 flex flex-col justify-between items-center h-full">
+                    <p class="font-bold uppercase text-[6.5px] text-gray-500 text-center leading-none">Received at Destination by</p>
+                    <div class="h-10"></div> <!-- BOX KOSONG TOTAL TANPA TANGAN (BERSIH) -->
+                    <div class="text-[6.5px] text-left w-full border-t border-gray-300 pt-0.5 leading-snug">
+                        <p>Signature: ________________</p>
                         <p>Name: ________________</p>
                         <p>Dept: Vendor / Site</p>
                     </div>
                 </div>
+
             </div>
         </div>
 
-        <div class="mt-4 border border-black p-2 rounded bg-gray-50 grid grid-cols-5 text-[8px] font-bold">
-            <div class="flex items-center space-x-1">
-                <input type="checkbox" id="checkRepair" disabled> <label for="checkRepair">REPAIR</label>
-            </div>
-            <div class="flex items-center space-x-1">
-                <input type="checkbox" id="checkCalibration" disabled> <label for="checkCalibration">CALIBRATION</label>
-            </div>
-            <div class="flex items-center space-x-1">
-                <input type="checkbox" id="checkReturn" disabled> <label for="checkReturn">RETURN</label>
-            </div>
-            <div class="flex items-center space-x-1">
-                <input type="checkbox" id="checkScrap" disabled> <label for="checkScrap">SCRAP</label>
-            </div>
-            <div class="flex items-center space-x-1">
-                <input type="checkbox" id="checkOther" disabled> <label for="checkOther">OTHER / LAIN-LAIN</label>
-            </div>
-        </div>
     </div>
 
+    <!-- MODAL POPUP: REGISTRASI OUTBOUND BARU -->
     <div id="addModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-950/85 backdrop-blur-sm p-4 no-print">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-2xl overflow-y-auto max-h-[90vh] shadow-2xl animate-in fade-in zoom-in-95 duration-150">
             <div class="bg-slate-950 p-4 border-b border-slate-800 flex items-center justify-between sticky top-0 z-10">
@@ -884,7 +969,7 @@
                     </div>
                     <div class="space-y-1">
                         <label class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Tracking ID (Otomatis)</label>
-                        <input type="text" id="newId" placeholder="Contoh: OB-2026-006" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:outline-none">
+                        <input type="text" id="newId" placeholder="Contoh: BTR-MOB-PLT-SWI-516" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:outline-none">
                     </div>
                     <div class="space-y-1">
                         <label class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Nomor Kontainer</label>
@@ -899,6 +984,7 @@
                         <input type="text" id="newItemName" placeholder="Contoh: RADIATOR" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:outline-none" required>
                     </div>
                     <div class="space-y-1">
+                        <!-- KOLOM TANGGAL DENGAN AKSI BACKDATE KE JANUARI 2026 -->
                         <label class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Tanggal Keluar LCT dari Wetar (Mendukung Backdate s/d Jan 2026)</label>
                         <input type="date" id="newLctDepartureDate" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:outline-none" required>
                     </div>
@@ -1003,7 +1089,7 @@
 
                     <div class="space-y-1">
                         <label class="text-slate-400 font-bold uppercase tracking-wider text-[10px]">Nama Petugas Penerima Logistik</label>
-                        <input type="text" id="newLogisticReceiver" value="M. Yusuf" placeholder="Nama petugas logistik penerima kargo" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:outline-none" required>
+                        <input type="text" id="newLogisticReceiver" value="Lexi Albertus" placeholder="Nama petugas logistik penerima kargo" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-200 focus:outline-none" required>
                     </div>
 
                     <div class="space-y-1 sm:col-span-2">
@@ -1041,7 +1127,7 @@
 
     <script>
         // SISTEM CACHE-BUSTER OTOMATIS: Memaksa pembersihan cache database lama agar layout tidak rusak
-        const SYSTEM_VERSION = "v15_clean_backsigned";
+        const SYSTEM_VERSION = "v16_landscape_clean";
         if (localStorage.getItem('wetar_system_version') !== SYSTEM_VERSION) {
             localStorage.removeItem('wetar_logistics_v12_kg');
             localStorage.setItem('wetar_system_version', SYSTEM_VERSION);
@@ -1049,6 +1135,39 @@
 
         // Data Manifes berkualitas tinggi yang mendukung LCT Backdate s.d. Januari 2026
         const DEFAULT_SHIPMENTS = [
+            {
+                id: "BTR-MOB-PLT-SWI-516",
+                containerId: "TAKU2315722",
+                originator: "Bayu Aji Sena",
+                sku: "BTRWWEMEE6-6784",
+                itemName: "RADIATOR",
+                category: "Sparepart / Komponen",
+                department: "Maintenance Workshop",
+                qty: 1,
+                unit: "Box",
+                weight: 1350,
+                length: 200,
+                width: 100,
+                height: 190,
+                carrier: "LCT P17 VOY 1215",
+                origin: "Wetar Island Site",
+                destination: "Surabaya HUB (Hanya Transit SUB)",
+                reason: "REPAIR",
+                remarks: "Pengembalian Radiator eks Warranty GS1007 (Lurang)",
+                approver: "Wasiman W",
+                logisticReceiver: "Lexi Albertus",
+                phone: "Nashrul Alfan",
+                deliveryAddress: "PT HARTEKPRIMA LISTRINDO, JL RAYA MARGOREJO INDAH NO 122, KAV.D105 SURABAYA 60239, PHONE (6231)8486 111 FAX (6231)848 4789",
+                lctDepartureDate: "2026-07-17",
+                currentStatusIndex: 2, // Loaded onto Vessel
+                lastUpdated: "2026-07-17 11:30 WIT",
+                photo: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'><rect width='100%' height='100%' fill='%231e293b'/><rect x='40' y='30' width='220' height='140' fill='%2378350f' stroke='%23f59e0b' stroke-width='4'/><line x1='40' y1='30' x2='260' y2='170' stroke='%23d97706' stroke-width='3'/><line x1='260' y1='30' x2='40' y2='170' stroke='%23d97706' stroke-width='3'/><rect x='50' y='40' width='200' height='120' fill='none' stroke='%23f59e0b' stroke-width='1' stroke-dasharray='5,5'/><text x='150' y='110' font-family='sans-serif' font-size='14' font-weight='bold' fill='%23f59e0b' text-anchor='middle'>PETI KAYU RADIATOR</text></svg>",
+                history: [
+                    { status: "Loaded onto Vessel", location: "Dermaga Wetar Island", time: "2026-07-17 11:30 WIT", desc: "Radiator eks-Warranty GS1007 (Lurang) dalam peti kayu telah dimuat di LCT P17 VOY 1215." },
+                    { status: "Security Cleared", location: "Security Port Gate Wetar", time: "2026-07-16 14:15 WIT", desc: "Pemeriksaan dokumen SIO & Surat Jalan No LOG-BKP/BTR-000 selesai disetujui." },
+                    { status: "Draft & Packed", location: "Workshop Wetar Site", time: "2026-07-15 09:00 WIT", desc: "Radiator dikemas dengan Box dimensi 200x100x190 cm." }
+                ]
+            },
             {
                 id: "OB-2026-001",
                 containerId: "CON-WTR-8812",
@@ -1773,8 +1892,8 @@
 
             document.getElementById('excelPrintDate').innerText = ship.lctDepartureDate || ship.lastUpdated.split(' ')[0];
             document.getElementById('excelPrintRef').innerText = `LOG-BKP/BTR-${ship.id.split('-').pop()}`;
-            document.getElementById('excelContainerHighlight').innerText = ship.containerId;
-            document.getElementById('excelTrackingHighlight').innerText = ship.id;
+            document.getElementById('excelContainerHighlight').innerText = `NO KONTAINER: ${ship.containerId}`;
+            document.getElementById('excelTrackingHighlight').innerText = `TRACKING NO: ${ship.id}`;
 
             // Isi baris tabel
             document.getElementById('excelUser').innerText = ship.originator || "Bayu Aji Sena";
@@ -1793,6 +1912,7 @@
             document.getElementById('excelWt').innerText = ship.weight.toLocaleString('id-ID');
 
             // Baris total
+            document.getElementById('excelTotalPkgItem').innerText = ship.qty;
             document.getElementById('excelTotalPkg').innerText = ship.qty;
             document.getElementById('excelTotalVol').innerText = volume.toLocaleString('id-ID');
             document.getElementById('excelTotalWt').innerText = ship.weight.toLocaleString('id-ID');
@@ -1800,21 +1920,22 @@
             // Embed Foto
             const photoFrame = document.getElementById('excelPhotoFrame');
             if (ship.photo) {
-                photoFrame.innerHTML = `<img src="${ship.photo}" alt="Foto Kargo" class="max-w-full max-h-28 object-contain">`;
+                photoFrame.innerHTML = `<img src="${ship.photo}" alt="Foto Kargo" class="max-w-full max-h-20 object-contain mx-auto rounded shadow-sm">`;
             } else {
-                photoFrame.innerHTML = `<span class="text-gray-400 italic">Tidak ada foto</span>`;
+                photoFrame.innerHTML = `<span class="text-gray-400 italic text-[7px]">Tidak ada foto</span>`;
             }
 
+            document.getElementById('excelReasonCell').innerText = ship.reason || "REPAIR";
             document.getElementById('excelAddressCell').innerText = ship.deliveryAddress || "-";
             document.getElementById('excelPhoneCell').innerText = ship.phone || "-";
             document.getElementById('excelRemarksCell').innerText = ship.remarks || "-";
 
-            // Approval Box Tanpa Tanda Tangan Corengan Kuning
+            // Approval Box Tanpa Tanda Tangan Corengan Kuning (Kosong Bersih)
             document.getElementById('excelSignUserName').innerText = ship.originator || "Bayu Aji Sena";
             document.getElementById('excelSignUserDept').innerText = ship.department || "Maintenance";
             document.getElementById('excelSignMgrName').innerText = ship.approver || "Wasiman W";
             document.getElementById('excelSignMgrDept').innerText = "Maintenance Manager";
-            document.getElementById('excelSignLogName').innerText = ship.logisticReceiver || "M. Yusuf";
+            document.getElementById('excelSignLogName').innerText = ship.logisticReceiver || "Lexi Albertus";
 
             // Atur checkbox checklist
             document.getElementById('exCheckRepair').checked = false;
@@ -1834,8 +1955,8 @@
         function syncPrintArea(ship) {
             document.getElementById('printDateStr').innerText = ship.lctDepartureDate || ship.lastUpdated.split(' ')[0];
             document.getElementById('printRegisterNum').innerText = `LOG-BKP/BTR-${ship.id.split('-').pop()}`;
-            document.getElementById('printContainerSorotan').innerText = ship.containerId;
-            document.getElementById('printTrackingSorotan').innerText = ship.id;
+            document.getElementById('printContainerSorotan').innerText = `NO KONTAINER: ${ship.containerId}`;
+            document.getElementById('printTrackingSorotan').innerText = `TRACKING NO: ${ship.id}`;
 
             document.getElementById('printUser').innerText = ship.originator || "Bayu Aji Sena";
             document.getElementById('printTrack').innerText = ship.id;
@@ -1852,27 +1973,29 @@
             document.getElementById('printVolumeTotal').innerText = volume.toLocaleString('id-ID');
             document.getElementById('printWeightTotal').innerText = ship.weight.toLocaleString('id-ID');
 
+            document.getElementById('printTotalPkgItem').innerText = ship.qty;
             document.getElementById('printTotalPackageSum').innerText = ship.qty;
             document.getElementById('printVolumeSum').innerText = volume.toLocaleString('id-ID');
             document.getElementById('printWeightSum').innerText = ship.weight.toLocaleString('id-ID');
 
             const photoCell = document.getElementById('printPhotoCell');
             if (ship.photo) {
-                photoCell.innerHTML = `<img src="${ship.photo}" alt="Foto Kargo" class="max-w-full max-h-32 object-contain">`;
+                photoCell.innerHTML = `<img src="${ship.photo}" alt="Foto Kargo" class="max-w-full max-h-20 object-contain mx-auto rounded shadow-sm">`;
             } else {
-                photoCell.innerHTML = `<span class="text-gray-400 italic">Tidak ada foto</span>`;
+                photoCell.innerHTML = `<span class="text-gray-400 italic text-[7px]">Tidak ada foto</span>`;
             }
 
+            document.getElementById('printReasonCell').innerText = ship.reason || "REPAIR";
             document.getElementById('printAddressCell').innerText = ship.deliveryAddress || "-";
             document.getElementById('printPhoneCell').innerText = ship.phone || "-";
             document.getElementById('printRemarksCell').innerText = ship.remarks || "-";
 
-            // Approval Box Tanpa Tanda Tangan Corengan Kuning
+            // Approval Box Tanpa Tanda Tangan Corengan Kuning (Kosong Bersih)
             document.getElementById('signOriginatorName').innerText = ship.originator || "Bayu Aji Sena";
             document.getElementById('signOriginatorDept').innerText = ship.department || "Maintenance";
             document.getElementById('signManagerName').innerText = ship.approver || "Wasiman W";
             document.getElementById('signManagerDept').innerText = "Maintenance";
-            document.getElementById('signLogName').innerText = ship.logisticReceiver || "M. Yusuf";
+            document.getElementById('signLogName').innerText = ship.logisticReceiver || "Lexi Albertus";
 
             document.getElementById('checkRepair').checked = false;
             document.getElementById('checkCalibration').checked = false;
